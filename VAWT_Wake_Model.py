@@ -185,6 +185,7 @@ def velocity_field(xt,yt,x0,y0,velf,dia,tsr,solidity):
     vel : float
         final normalized velocity at (x0,y0) with respect to the free stream velocity (m/s)
     """
+    #comment to test commits
     rad = dia/2.
     rot = tsr*velf/rad
 
