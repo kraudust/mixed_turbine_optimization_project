@@ -206,6 +206,6 @@ def velocity_field(xt,yt,x0,y0,velf,dia,tsr,solidity):
     # Calculating velocity deficit
     vel = (vel_vs[0]*(rot))/(2.*pi)
     vel = (vel + velf)/velf # normalization of velocity
-    
+        
     return vel
 

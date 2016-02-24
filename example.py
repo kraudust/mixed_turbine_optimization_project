@@ -14,8 +14,8 @@ solidity = (chord*B)/(dia/2.)
 
 # Enter the positions of the turbine and velocity calculation
 xt = 0. # downstream position of turbine (m)
-yt = 0. # later position of turbine (m)
-x0 = 5. # downstream position of velocity calculation from turbine (m)
+yt = 0. # lateral position of turbine (m)
+x0 = 500. # downstream position of velocity calculation from turbine (m)
 y0 = 0. # lateral position of velocity calculation from turbine (m)
 
 vel = velocity_field(xt,yt,xt + x0,yt + y0,velf,dia,tsr,solidity)
