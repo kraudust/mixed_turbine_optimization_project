@@ -13,15 +13,13 @@ chord = 0.25 # chord lenth (m)
 solidity = (chord*B)/(dia/2.)
 
 # Enter the positions of the turbine and velocity calculation
-xt = 50. # downstream position of turbine (m)
+xt = 0. # downstream position of turbine (m)
 yt = 0. # lateral position of turbine (m)
-x0 = -50. # downstream position of velocity calculation from turbine (m)
+x0 = 50. # downstream position of velocity calculation from turbine (m)
 y0 = 0. # lateral position of velocity calculation from turbine (m)
 
 vel = velocity_field(xt,yt,xt + x0,yt + y0,velf,dia,tsr,solidity)
-print xt, yt, xt+x0, yt+y0, velf, dia, tsr, solidity
-print 1 - vel
-#print '\nLoss at (',x0,',',y0,') from the turbine =',(1.- vel),'\n' # output velocity (normalized by free stream wind speed)
+print '\nLoss at (',x0,',',y0,') from the turbine =',(1.- vel),'\n' # output velocity (normalized by free stream wind speed)
 
 ## Plotting
 fs = 15 # font size for plots
