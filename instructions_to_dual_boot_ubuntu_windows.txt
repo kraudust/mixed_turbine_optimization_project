@@ -1,0 +1,15 @@
+-click disc management
+-right click c: in box and click shrink
+-it will query, then click shrink after entering btw 100000-170000... (I did 170000) - space to allocate to ubuntu
+-mine already had 4 partitions, so I had to create a backup flash drive from the recovery disc partition and then delete that partition
+-restart after plugging in special flash drive
+-install ubuntu and push enter
+-click something else, then continue
+-click empty partition, then +, then logical partition 70000 with /
+-click empty partition, then +, then logical partition 90000, then /home
+-click empty partition, then +, then logical partition (number of RAM you have ish), swap
+-click install after click on right thing (i clearly took good notes here... hopefully I remember... pretty sure it was the / logical partition)
+-restart computer
+-open terminal and type sudo update-grub .... this is where killpack was like.. please work.. please work.. it finds windows and you're good to go!!
+
+
