@@ -158,7 +158,7 @@ if __name__ == '__main__':
     # x_r, y_r = rotate(x, y, U_direction_radians)
 
     # Jensen_Wake_Model(overlap, loss, jensen_power, jensen_plot, x, y, r_0, alpha, U_direction_radians)
-    xin = (x, y)
+    xin = np.hstack([x, y])
     params = (r_0, alpha, U_direction_radians, a, U_velocity, rho, Cp)
     print Jensen_Wake_Model(xin, params)
 
