@@ -43,9 +43,9 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
 
 
 def loss_cylinder(x_h,x_v,overlap_cyl,r_tower):
-	theta = 10.0*pi/180.
-	loss = np.zeros(np.size(x_h))
-	loss_squared = np.zeros(np.size(x_h))
+    theta = 10.0*pi/180.
+    loss = np.zeros(np.size(x_h))
+    loss_squared = np.zeros(np.size(x_h))
     total_loss = np.zeros(np.size(x_v))
     Cd = 0.3
     for i in range(len(x_v)):
