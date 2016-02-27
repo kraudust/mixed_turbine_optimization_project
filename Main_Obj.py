@@ -42,11 +42,52 @@ def obj(xin,params):
     Ptotal = np.sum(HAWT_Pow) + np.sum(VAWT_Pow)
     return Ptotal
 
+
+def con(xin, params):
+    nTurbs = len(xin)/2 #total number of turbines
+    nVAWT, rh, rv, rt, U_dir, U_vel = params
+    nHAWT = nTurbs - nVAWT #number of horizontal axis turbines
+    
+    #split xin into x and y locations for VAWT and HAWT
+    xVAWT = xin[0 : nVAWT]
+    yVAWT = xin[nVAWT: 2*nVAWT]
+    xHAWT = xin[nTurbs: nTurbs + nHAWT]
+    yHAWT = xin[nTurbs + nVAWT : len(xin)]
+
+    constraints = np.array([])
+
+    for i in range(len(xHAWT)):
+        for j in range(len(xHAWT)):
+            if i==j:
+                constraints = np.append(constraints,0)
+            else:
+                dx = xHAWT[i]-xHAWT[j]
+                dy = yHAWT[i]-yHAWT[j]
+                constraints = np.append(constraints, dx**2+dy**2-64*rh**2)
+
+    for i in range(len(xVAWT)):
+        for j in range(len(xVAWT)):
+            if i==j:
+                constraints = np.append(constraints,0)
+            else:
+                dx = xVAWT[i]-xVAWT[j]
+                dy = yVAWT[i]-yVAWT[j]
+                constraints = np.append(constraints, dx**2+dy**2-64*rv**2)
+
+    for i in range(len(xVAWT)):
+        for j in range(len(xHAWT)):
+            dx = xVAWT[i]-xHAWT[j]
+            dy = yVAWT[i]-yHAWT[j]
+            constraints = np.append(constraints, dx**2+dy**2-16*rh**2)
+
+    return constraints
+
+
 if __name__=="__main__":
-    xHAWT = np.array([0, 0, 0, 200, 200, 200, 400, 400, 400])
-    yHAWT = np.array([0, 200, 400, 0, 200, 400, 0, 200, 400])
-    xVAWT = np.array([100, 100, 100, 300, 300, 300])
-    yVAWT = np.array([100, 200, 300, 100, 200, 300])
+    xHAWT = np.array([0, 200, 400])
+    yHAWT = np.array([0, 200, 400])
+    xVAWT = np.array([100, 100, 100])
+    yVAWT = np.array([100, 200, 300])
 
     xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
     nVAWT = len(xVAWT)
@@ -60,3 +101,4 @@ if __name__=="__main__":
     params = [nVAWT, rh, rv, rt, dir_rad, U_vel]
 
     print obj(xin, params)
+    print con(xin, params)
