@@ -29,12 +29,19 @@ def obj(xin,params):
     yVAWT = xin[nVAWT: 2*nVAWT]
     xHAWT = xin[nTurbs: nTurbs + nHAWT]
     yHAWT = xin[nTurbs + nVAWT : len(xin)]
-	
+    
+    xrHAWT, yrHAWT = rotate(xHAWT, yHAWT, U_dir)
+    xrVAWT, yrVAWT = rotate(xVAWT, yVAWT, U_dir)
+    paramsHAWT = rh, U_vel
+	paramsVAWT = rVAWT, rTOWER, U_vel
 	
 	#calculate power for VAWT and HAWT
-    HAWT_Power = Jensen_Wake_Model(xHAWT, yHAWT, params)
-    VAWT_Power = VAWT_Power(xVAWT, yVAWT, params)
+    HAWT_Power = Jensen_Wake_Model(xrHAWT, yrHAWT, paramsHAWT)
+    VAWT_Power = VAWT_Power(xrVAWT, yrVAWT, xrHAWT, yrHAWT, paramsVAWT)
 	
-	Ptotal = HAWT_Power + VAWT_Power
+	Ptotal = np.sum(HAWT_Power) + np.sum(VAWT_Power)
     return Ptotal
+
+if __name__=="__main__"
+    
     
