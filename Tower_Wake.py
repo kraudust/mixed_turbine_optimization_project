@@ -10,7 +10,7 @@ from math import pi, tan, cos, acos, sin, sqrt
 
 def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
     #radius tower, vertical ,wake
-    theta = 15.0 * pi/180.0   # angle to radians
+    theta = 10.0 * pi/180.0   # angle to radians
     n_cyl = len(x_v)   # number of cylinders
     overlap_cyl = np.zeros([n_cyl,len(x_h)])
     area_vawt = pi * r_vawt**2.
@@ -42,16 +42,17 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
     return overlap_cyl
 
 
-def loss_cylinder(x_h,x_v,overap_cyl,r_tower,theta):
-    loss = np.zeros(np.size(x_h))
-    loss_squared = np.zeros(np.size(x_h))
+def loss_cylinder(x_h,x_v,overlap_cyl,r_tower):
+	theta = 10.0*pi/180.
+	loss = np.zeros(np.size(x_h))
+	loss_squared = np.zeros(np.size(x_h))
     total_loss = np.zeros(np.size(x_v))
     Cd = 0.3
     for i in range(len(x_v)):
         for j in range(len(x_h)):
             dx = x_v[i] - x_h[j]
             if dx > 0:
-                loss[j] = overap_cyl[i][j] * sqrt((3*r_tower+Cd*r_tower)/(3*r_tower + 2*dx*tan(theta)))
+                loss[j] = overlap_cyl[i][j] * sqrt((3*r_tower+Cd*r_tower)/(3*r_tower + 2*dx*tan(theta)))
                 loss_squared [j] = loss[j]**2
             else:
                 loss[j] = 0
@@ -112,7 +113,7 @@ if __name__ == '__main__':
     r_tower = 40.
     r_vawt = 50.
     print overlap_cylinder(x_rh,y_rh, x_rv, y_rv, r_tower, r_vawt)
-    print loss_cylinder(x_h,x_v,overlap_cyl,r_tower,theta)
+    print loss_cylinder(x_h,x_v,overlap_cyl,r_tower)
     #plot = cylinder_plot(x,y,r_tower,alpha,U_direction_radians)
     plt.scatter(x_h,y_h)
     plt.scatter(x_v,y_v,c='r')

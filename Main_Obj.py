@@ -24,16 +24,16 @@ def obj(xin,params):
     nVAWT, rh, rv, rt, U_dir, U_vel = params
     nHAWT = nTurbs - nVAWT #number of horizontal axis turbines
     
-    #still need to finish fixing these
     #split xin into x and y locations for VAWT and HAWT
     xVAWT = xin[0 : nVAWT]
     yVAWT = xin[nVAWT: 2*nVAWT]
     xHAWT = xin[nTurbs: nTurbs + nHAWT]
     yHAWT = xin[nTurbs + nVAWT : len(xin)]
 	
+	
 	#calculate power for VAWT and HAWT
     HAWT_Power = Jensen_Wake_Model(xHAWT, yHAWT, params)
-    VAWT_Power = VAWT_Power_Func(xVAWT, yVAWT, params)
+    VAWT_Power = VAWT_Power(xVAWT, yVAWT, params)
 	
 	Ptotal = HAWT_Power + VAWT_Power
     return Ptotal
