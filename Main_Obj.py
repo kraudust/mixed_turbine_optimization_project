@@ -24,10 +24,11 @@ def obj(xin,params):
     nVAWT, rh, rv, rt, U_dir, U_vel = params
     nHAWT = nTurbs - nVAWT #number of horizontal axis turbines
     
+    #still need to finish fixing these
     #split xin into x and y locations for VAWT and HAWT
     xVAWT = xin[0 : nVAWT]
-    xHAWT = xin[nVAWT : nTurbs]
-    yVAWT = xin[nTurbs : nTurbs + nVAWT]
+    yVAWT = xin[nVAWT: 2*nVAWT]
+    xHAWT = xin[nTurbs: nTurbs + nHAWT]
     yHAWT = xin[nTurbs + nVAWT : len(xin)]
 	
 	#calculate power for VAWT and HAWT
