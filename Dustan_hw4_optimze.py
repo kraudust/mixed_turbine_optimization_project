@@ -24,6 +24,8 @@ if __name__=="__main__":
 	U_vel = 8.
 	params = [nVAWT, rh, rv, rt, dir_rad, U_vel]
 
+	print "Original Power: ", obj(xin, params)
+	#-------------------------Optimization----------------------------------
 	#set bound constraints
 	xupper = 2000 #upper bound on x direction field coordinate
 	yupper = 1950 #upper bound on y direction field coordinate
@@ -31,5 +33,5 @@ if __name__=="__main__":
 	constraints = {'type': 'ineq', 'fun': con, 'args': params}
 	options = {'dist': True, 'maxiter': 2000}
 	res = minimize(obj, xin, args = params, method = 'SLSQP', jac = False, bounds = bound_constraints, constraints = constraints, tol = 1e-6, options = options)
-	#print "Original Power: ", obj(xin, params)
+
     
