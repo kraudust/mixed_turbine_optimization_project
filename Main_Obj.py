@@ -33,15 +33,30 @@ def obj(xin,params):
     xrHAWT, yrHAWT = rotate(xHAWT, yHAWT, U_dir)
     xrVAWT, yrVAWT = rotate(xVAWT, yVAWT, U_dir)
     paramsHAWT = rh, U_vel
-	paramsVAWT = rVAWT, rTOWER, U_vel
+    paramsVAWT = rv, rt, U_vel
 	
 	#calculate power for VAWT and HAWT
-    HAWT_Power = Jensen_Wake_Model(xrHAWT, yrHAWT, paramsHAWT)
-    VAWT_Power = VAWT_Power(xrVAWT, yrVAWT, xrHAWT, yrHAWT, paramsVAWT)
+    HAWT_Pow = Jensen_Wake_Model(xrHAWT, yrHAWT, paramsHAWT)
+    VAWT_Pow = VAWT_Power(xrVAWT, yrVAWT, xrHAWT, yrHAWT, paramsVAWT)
 	
-	Ptotal = np.sum(HAWT_Power) + np.sum(VAWT_Power)
+    Ptotal = np.sum(HAWT_Pow) + np.sum(VAWT_Pow)
     return Ptotal
 
-if __name__=="__main__"
-    
-    
+if __name__=="__main__":
+    xHAWT = np.array([0, 0, 0, 200, 200, 200, 400, 400, 400])
+    yHAWT = np.array([0, 200, 400, 0, 200, 400, 0, 200, 400])
+    xVAWT = np.array([100, 100, 100, 300, 300, 300])
+    yVAWT = np.array([100, 200, 300, 100, 200, 300])
+
+    xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
+    nVAWT = len(xVAWT)
+    rh = 40.
+    rv = 3.
+    rt = 5.
+    direction = 30.
+    dir_rad = (direction+90) * np.pi / 180.
+    U_vel = 8.
+
+    params = [nVAWT, rh, rv, rt, dir_rad, U_vel]
+
+    print obj(xin, params)
