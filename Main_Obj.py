@@ -92,16 +92,12 @@ def bounds(xin, params, xupper, yupper):
 	boundx = np.array([0,xupper])
 	boundy = np.array([0,yupper])
 	for i in range(0, nVAWT):
-		print i
 		bounds[i] = boundx
 	for i in range(nVAWT, 2*nVAWT):
-		print i
 		bounds[i] = boundy
 	for i in range(2*nVAWT, 2*nVAWT + nHAWT):
-		print i
 		bounds[i] = boundx
 	for i in range(2*nVAWT + nHAWT, len(xin)):
-		print i
 		bounds[i] = boundy
 	return bounds	
 	
