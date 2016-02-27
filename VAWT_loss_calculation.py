@@ -35,8 +35,12 @@ def VAWT_loss(x_v, y_v, x_h, y_h, norm_vel_func, velf, dia, tsr, solidity, r_tow
 		ind_loss = np.zeros(n)
 	
 	loss_HT = loss_cylinder(x_h, y_h, x_v, y_v, r_tower, r_vawt) #loss from HAWT towers
+	print "HAWT Loss: ", loss_HT
+	print "VAWT Loss: ", loss_VT
 	for z in range(0, n):
 		tot_loss[z] = (loss_HT[z]**2. + loss_VT[z]**2.)**0.5
+		if tot_loss[z] > 1.:
+			tot_loss[z] = 1.
 	return tot_loss
 	
 #def VAWT_Power():
