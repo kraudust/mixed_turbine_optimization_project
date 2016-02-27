@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from Tower_Wake import *
 from math import pi
 
-def VAWT_loss(x_v, y_v, x_h, norm_vel_func, velf, dia, tsr, solidity, r_tower, theta):
+def VAWT_loss(x_v, y_v, x_h, y_h, norm_vel_func, velf, dia, tsr, solidity, r_tower, theta):
 	"""
 	inputs:
 		x_v: numpy array with VAWT x locations as follows [x1, x2, ..., xn]
@@ -22,6 +22,7 @@ def VAWT_loss(x_v, y_v, x_h, norm_vel_func, velf, dia, tsr, solidity, r_tower, t
 	n = np.size(x_v) #number of turbines
 	loss_VT = np.zeros(n) #total loss on each turbine
 	tot_loss = np.zeros(n)
+	r_vawt = dia/2.
 	#loss on a turbine from all the other turbines [Lj1, Lj2, Lj3, Lj4, ..., Lji] where Ljn = loss on turbine j from turbine n
 	ind_loss = np.zeros(n)
 	for i in range(0, n):
@@ -33,7 +34,7 @@ def VAWT_loss(x_v, y_v, x_h, norm_vel_func, velf, dia, tsr, solidity, r_tower, t
 		loss_VT[i] = np.linalg.norm(ind_loss,2) #calculate the sum of the squares (the 2 norm)
 		ind_loss = np.zeros(n)
 	
-	loss_HT = loss_cylinder(x_h, x_v, overlap_cyl,r_tower,theta) #loss from HAWT towers
+	loss_HT = loss_cylinder(x_h, y_h, x_v, y_v, r_tower, r_vawt) #loss from HAWT towers
 	for z in range(0, n):
 		tot_loss[z] = (loss_HT[z]**2. + loss_VT[z]**2.)**0.5
 	return tot_loss
@@ -53,12 +54,15 @@ if __name__=="__main__":
 	x_v = np.array([0, 0, 0, 50, 50, 50, 100, 100, 100])
 	y_v = np.array([0, 50, 100, 0, 50, 100, 0, 50, 100])
 	x_h = np.array([7, 30])
+	y_h = np.array([7, 30])
 	#x = np.array([0., 50.])
 	#y = np.array([0.,0.])
 	theta = 10.*pi/180.
-	loss = VAWT_loss(x_v, y_v, x_h, velocity_field, velf, dia, tsr, solidity, r_tower, theta)
+	r_tower = 5.
+	loss = VAWT_loss(x_v, y_v, x_h, y_h, velocity_field, velf, dia, tsr, solidity, r_tower, theta)
 	print loss
 	plt.figure()
-	plt.scatter(x,y)
+	plt.scatter(x_v,y_v)
+	plt.scatter(x_h, y_h, c='r')
 	plt.show()
 	

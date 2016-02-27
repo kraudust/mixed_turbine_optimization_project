@@ -42,12 +42,13 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
     return overlap_cyl
 
 
-def loss_cylinder(x_h,x_v,overlap_cyl,r_tower):
+def loss_cylinder(x_h, y_h, x_v, y_v, r_tower, r_vawt):
     theta = 10.0*pi/180.
     loss = np.zeros(np.size(x_h))
     loss_squared = np.zeros(np.size(x_h))
     total_loss = np.zeros(np.size(x_v))
     Cd = 0.3
+    overlap_cyl = overlap_cylinder(x_h, y_h, x_v, y_v, r_tower, r_vawt)
     for i in range(len(x_v)):
         for j in range(len(x_h)):
             dx = x_v[i] - x_h[j]
@@ -80,14 +81,6 @@ def cylinder_plot(x, y,r_tower, alpha, U_direction_radians):
     plt.ylabel('y')
     plt.show()
 
-def rotate(x_h, y_h, x_v, y_v, U_direction_radians):
-    x_rh = x_h*sp.cos(U_direction_radians)-y_h*sp.sin(U_direction_radians)
-    y_rh = x_h*sp.sin(U_direction_radians)+y_h*sp.cos(U_direction_radians)
-    x_rv = x_v*sp.cos(U_direction_radians)-y_v*sp.sin(U_direction_radians)
-    y_rv = x_v*sp.sin(U_direction_radians)+y_v*sp.cos(U_direction_radians)
-    return x_rh, y_rh, x_rv, y_rv
-
-
 if __name__ == '__main__':
 
     "Define Variables"
@@ -106,14 +99,11 @@ if __name__ == '__main__':
     r_vawt = 50.
     U_direction_radians = (U_direction+90) * pi / 180.
 
-    x_rh, y_rh, x_rv, y_rv = rotate(x_h, y_h, x_v, y_v, U_direction_radians)
-    overlap_cyl = overlap_cylinder(x_rh,y_rh, x_rv, y_rv, r_tower, r_vawt)
-
     # TEST
     r_tower = 40.
     r_vawt = 50.
-    print overlap_cylinder(x_rh,y_rh, x_rv, y_rv, r_tower, r_vawt)
-    print loss_cylinder(x_h,x_v,overlap_cyl,r_tower)
+    print overlap_cylinder(x_h,y_h, x_v, y_v, r_tower, r_vawt)
+    print loss_cylinder(x_h, y_h, x_v, y_v, r_tower, r_vawt)
     #plot = cylinder_plot(x,y,r_tower,alpha,U_direction_radians)
     plt.scatter(x_h,y_h)
     plt.scatter(x_v,y_v,c='r')
