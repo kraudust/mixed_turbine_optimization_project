@@ -22,19 +22,19 @@ import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
 
-def Jensen_Wake_Model(xin, params):
-    nTurbines = len(xin)/2.
-    x = np.zeros(nTurbines)
-    y = np.zeros(nTurbines)
-    x[:] = xin[0:nTurbines]
-    y[:] = xin[nTurbines:nTurbines*2]
-    r_0, alpha, U_direction_radians, a, U_velocity, rho, Cp = params
+def Jensen_Wake_Model(xHAWT, yHAWT, params):
+    theta = 0.1
+    alpha = sp.tan(theta)
+    rho = 1.1716
+    a = 1. / 3.
+    Cp = 4.*a*(1-a)**2.
+    # nTurbines = len(xin)/2.
+    r_0, U_velocity = params
     "Make the graphic for the turbines and wakes"
     # jensen_plot(x, y, r_0, alpha, U_direction_radians)
 
     "Calculate power from each turbine"
-    x_r, y_r = rotate(x, y, U_direction_radians)
-    return jensen_power(overlap, loss, x_r, y_r, r_0, alpha, a, U_velocity, rho, Cp)
+    return jensen_power(overlap, loss, xHAWT, yHAWT, r_0, alpha, a, U_velocity, rho, Cp)
 
     # plt.show()
 
@@ -158,9 +158,9 @@ if __name__ == '__main__':
     # x_r, y_r = rotate(x, y, U_direction_radians)
 
     # Jensen_Wake_Model(overlap, loss, jensen_power, jensen_plot, x, y, r_0, alpha, U_direction_radians)
-    xin = np.hstack([x, y])
-    params = (r_0, alpha, U_direction_radians, a, U_velocity, rho, Cp)
-    print Jensen_Wake_Model(xin, params)
+    # xin = np.hstack([x, y])
+    params = (r_0, U_velocity)
+    print Jensen_Wake_Model(x, y, params)
 
     # wakes = np.linspace(0, 1000, num=101)
     #
