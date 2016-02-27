@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from math import pi, tan, cos, acos, sin, sqrt
 from Jensen import *
 from Tower_Wake import *
-from VAWT_loss_calculation import *
+from VAWT_power_calculation import *
 
 def obj(xin,params):
     """
