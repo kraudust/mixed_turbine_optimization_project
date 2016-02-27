@@ -27,8 +27,8 @@ def obj(xin,params):
 	#split xin into x and y locations for VAWT and HAWT
 	xVAWT = xin[0 : nVAWT]
 	yVAWT = xin[nVAWT: 2*nVAWT]
-	xHAWT = xin[nTurbs: nTurbs + nHAWT]
-	yHAWT = xin[nTurbs + nVAWT : len(xin)]
+	xHAWT = xin[2*nVAWT: 2*nVAWT + nHAWT]
+	yHAWT = xin[2*nVAWT + nHAWT : len(xin)]
 
 	xrHAWT, yrHAWT = rotate(xHAWT, yHAWT, U_dir)
 	xrVAWT, yrVAWT = rotate(xVAWT, yVAWT, U_dir)
@@ -51,8 +51,8 @@ def con(xin, params):
 	#split xin into x and y locations for VAWT and HAWT
 	xVAWT = xin[0 : nVAWT]
 	yVAWT = xin[nVAWT: 2*nVAWT]
-	xHAWT = xin[nTurbs: nTurbs + nHAWT]
-	yHAWT = xin[nTurbs + nVAWT : len(xin)]
+	xHAWT = xin[2*nVAWT: 2*nVAWT + nHAWT]
+	yHAWT = xin[2*nVAWT + nHAWT : len(xin)]
 
 	constraints = np.array([])
 
@@ -92,15 +92,19 @@ def bounds(xin, params, xupper, yupper):
 	boundx = np.array([0,xupper])
 	boundy = np.array([0,yupper])
 	for i in range(0, nVAWT):
+		print i
 		bounds[i] = boundx
 	for i in range(nVAWT, 2*nVAWT):
+		print i
 		bounds[i] = boundy
-	for i in range(nTurbs, nTurbs + nHAWT):
+	for i in range(2*nVAWT, 2*nVAWT + nHAWT):
+		print i
 		bounds[i] = boundx
-	for i in range(nTurbs + nVAWT, len(xin)):
+	for i in range(2*nVAWT + nHAWT, len(xin)):
+		print i
 		bounds[i] = boundy
 	return bounds	
-
+	
 if __name__=="__main__":
 	xHAWT = np.array([0, 200, 400])
 	yHAWT = np.array([0, 200, 400])
