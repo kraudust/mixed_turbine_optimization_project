@@ -7,45 +7,48 @@ from Main_Obj import *
 
 if __name__=="__main__":
 	"Define Variables"
-	xHAWT = np.array([0, 0, 0, 200, 200, 200, 400, 400, 400])
-	yHAWT = np.array([0, 200, 400, 0, 200, 400, 0, 200, 400])
-	xVAWT = np.array([100, 100, 100, 300, 300, 300])
-	yVAWT = np.array([100, 200, 300, 100, 200, 300])
+	xHAWT = np.array([0, 0, 0, 500, 500, 500])
+	yHAWT = np.array([0, 500, 1000, 0, 500, 1000])
+	xVAWT = np.array([501, 0])
+	yVAWT = np.array([500, 1])
 
 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
 	nVAWT = len(xVAWT)
 	rh = 40.
 	rv = 3.
 	rt = 5.
-	direction = 30.
+	direction = 1.
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
 
-	params = nVAWT, rh, rv, rt, dir_rad, U_vel
+	params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
 	
 
-	print obj(xin, params)
-	print con(xin, params)
-
-	boundaries = bounds(xin, params, 1500, 1500)
-	print boundaries
+	boundaries = bounds(xin, params, 1000, 1000)
+	
 	options = {'disp': True}
-	constraints = {'type': 'ineq', 'fun': con, 'args': (params)}
-	res = minimize(obj, xin, args=[params], method='SLSQP', jac=False, bounds=boundaries, tol=1e-6, constraints=constraints, options=options)
+	constraints = {'type': 'ineq', 'fun': con, 'args': (params,)}
 
+	res = minimize(obj, xin, args=(params,), method='SLSQP', jac=False, bounds=boundaries, tol=1e-6, constraints=constraints, options=options)
+	
+	print "Start Power: ", obj(xin, params)
+	print "Optimized Power: ", obj(res.x, params)
+	print "Start Constraints: ", con(xin, params)
+	print "Optimized Constraints: ", con(res.x, params)
 	print res.x
-	print con(res.x)
+	
+	nVAWT = len(xVAWT)
+	nHAWT = len(xHAWT)
 
-	xcoordinates = np.zeros(nTurbines)
-	ycoordinates = np.zeros(nTurbines)
+	opt_xVAWT = res.x[0 : nVAWT]
+	opt_yVAWT = res.x[nVAWT: 2*nVAWT]
+	opt_xHAWT = res.x[2*nVAWT: 2*nVAWT + nHAWT]
+	opt_yHAWT = res.x[2*nVAWT + nHAWT : len(res.x)]
 
-	xcoordinates = res.x[0:nTurbines]
-	ycoordinates = res.x[nTurbines:nTurbines*2.]
-
-	plt.scatter(x,y,label='Start')
-	plt.scatter(xcoordinates,ycoordinates, c='r', label='Optimized')
-	plt.legend()
+	plt.scatter(opt_xVAWT,opt_yVAWT,c='r', s=60,label='Optimized VAWT')
+	plt.scatter(opt_xHAWT,opt_yHAWT,c='b', s=100,label='Optimized HAWT')
+	plt.scatter(xHAWT,yHAWT, c='b', s=60, label='Start HAWT')
+	plt.scatter(xVAWT,yVAWT, c='r', s=30, label='Start VAWT')
+	# plt.legend(loc=2)
 	plt.show()
 
-	print "Start Power: ", Jensen_Wake_Model(xin, params)
-	print "Optimized Power: ", Jensen_Wake_Model(res.x, params)
