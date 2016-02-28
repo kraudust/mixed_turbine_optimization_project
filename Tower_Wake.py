@@ -1,7 +1,7 @@
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
-from math import pi, tan, cos, acos, sin, sqrt
+from math import pi, tan, cos, acos, sin, sqrt, atan
 
 
 #def loss_on_VAWT_from_HAWT(xin, params):
@@ -28,7 +28,10 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
                     beta = dx * tan(theta) - (dy - r_tower)
                     if beta > 0:
                         d = beta * cos(theta)
-                        phi = 2. * acos(d/r_vawt)
+                        print "d: ", d
+                        print "r_vawt: ", r_vawt
+                        phi = 2. * atan(d/r_vawt)
+                        print "PHI: ", phi
                         area_overlap = (r_vawt**2./2.) * (phi - sin(phi))
                         overlap_cyl[i][j] = 1 - area_overlap/area_vawt
                     else:
