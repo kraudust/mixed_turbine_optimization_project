@@ -12,4 +12,3 @@
 -restart computer
 -open terminal and type sudo update-grub .... this is where killpack was like.. please work.. please work.. it finds windows and you're good to go!!
 
-

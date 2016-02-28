@@ -21,7 +21,12 @@ def obj(xin,params):
 		Ptotal: total power output
 	"""
 	nTurbs = len(xin)/2 #total number of turbines
-	nVAWT, rh, rv, rt, U_dir, U_vel = params
+	nVAWT = params[0]
+	rh = params[1]
+	rv = params[2]
+	rt = params[3]
+	U_dir = params[4]
+	U_vel = params[5]
 	nHAWT = nTurbs - nVAWT #number of horizontal axis turbines
 
 	#split xin into x and y locations for VAWT and HAWT
@@ -45,7 +50,12 @@ def obj(xin,params):
 
 def con(xin, params):
 	nTurbs = len(xin)/2 #total number of turbines
-	nVAWT, rh, rv, rt, U_dir, U_vel = params
+	nVAWT = params[0]
+	rh = params[1]
+	rv = params[2]
+	rt = params[3]
+	U_dir = params[4]
+	U_vel = params[5]
 	nHAWT = nTurbs - nVAWT #number of horizontal axis turbines
 
 	#split xin into x and y locations for VAWT and HAWT
