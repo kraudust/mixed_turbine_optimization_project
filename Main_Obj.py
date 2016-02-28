@@ -82,10 +82,12 @@ def con(xin, params):
 
 	return constraints
 
+
 def bounds(xin, params, xupper, yupper):
 	#bounds = numpy array with upper and lower bound on each turbine
 	nTurbs = len(xin)/2 #total number of turbines
 	nVAWT, rh, rv, rt, U_dir, U_vel = params
+	nVAWT = int(nVAWT)
 	nHAWT = nTurbs - nVAWT #number of horizontal axis turbines
 	
 	bounds = np.zeros((nTurbs*2,2))
