@@ -1,6 +1,7 @@
 import numpy as np
 from Main_Obj import *
 from scipy.optimize import minimize
+import matplotlib.pyplot as plt
 
 if __name__=="__main__":
 	xHAWT = np.array([0, 0, 0, 300, 300, 300])
