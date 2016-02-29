@@ -45,7 +45,7 @@ def obj(xin,params):
 	VAWT_Pow = VAWT_Power(xrVAWT, yrVAWT, xrHAWT, yrHAWT, paramsVAWT)
 
 	Ptotal = np.sum(HAWT_Pow) + np.sum(VAWT_Pow)
-	return Ptotal
+	return Ptotal/1000000
 
 
 def con(xin, params):
@@ -90,7 +90,7 @@ def con(xin, params):
 			dy = yVAWT[i]-yHAWT[j]
 			constraints = np.append(constraints, dx**2+dy**2-16*rh**2)
 
-	return constraints
+	return constraints/100000
 
 
 def bounds(xin, params, xupper, yupper):
