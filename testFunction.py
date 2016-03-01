@@ -25,7 +25,7 @@ if __name__=="__main__":
 		U_vel = 8.
 
 		params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
-		power[i] = -1.*obj(xin,params)
+		power[i] = -1.*obj(xin,params)[0]
 
 	plt.figure(1)
 	plt.plot(power,x)
@@ -50,7 +50,7 @@ if __name__=="__main__":
 		U_vel = 8.
 
 		params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
-		power[i] = -1.*obj(xin,params)
+		power[i] = -1.*obj(xin,params)[1]
 
 	plt.figure(2)
 	plt.plot(power,x)

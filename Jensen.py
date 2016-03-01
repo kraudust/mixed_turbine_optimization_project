@@ -34,7 +34,7 @@ def Jensen_Wake_Model(xHAWT, yHAWT, params):
     # jensen_plot(x, y, r_0, alpha, U_direction_radians)
 
     "Calculate power from each turbine"
-    return jensen_power(overlap, loss, xHAWT, yHAWT, r_0, alpha, a, U_velocity, rho, Cp)
+    return jensen_power(xHAWT, yHAWT, r_0, alpha, a, U_velocity, rho, Cp)
 
     # plt.show()
 
@@ -46,7 +46,7 @@ def overlap(x, xdown, y, ydown, r, alpha):
         #define dx as the upstream x coordinate - the downstream x coordinate then rotate according to wind direction
         dx = xdown - x[i]
         #define dy as the upstream y coordinate - the downstream y coordinate then rotate according to wind direction
-        dy = ydown - y[i]
+        dy = abs(ydown - y[i])
         R = r+dx*alpha #The radius of the wake depending how far it is from the turbine
         A = r**2*np.pi #The area of the turbine
 
@@ -87,7 +87,7 @@ def loss(r_0, a, alpha, x_focus, x, overlap):
     return total_loss
 
 
-def jensen_power(overlap, loss, x, y, r_0, alpha, a, U_velocity, rho, Cp):
+def jensen_power(x, y, r_0, alpha, a, U_velocity, rho, Cp):
     "Effective velocity at each turbine"
     A = r_0**2*np.pi
     V = np.zeros([np.size(x)])

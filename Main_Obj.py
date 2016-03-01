@@ -43,7 +43,7 @@ def obj(xin,params):
 	#calculate power for VAWT and HAWT
 	HAWT_Pow = Jensen_Wake_Model(xrHAWT, yrHAWT, paramsHAWT)
 	VAWT_Pow = VAWT_Power(xrVAWT, yrVAWT, xrHAWT, yrHAWT, paramsVAWT)
-
+	
 	Ptotal = np.sum(HAWT_Pow) + np.sum(VAWT_Pow)
 	return -Ptotal/1000000
 
