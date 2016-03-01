@@ -54,8 +54,8 @@ def constraints_and_bounds(xin, params, xupper, yupper):
 if __name__=="__main__":
 	xHAWT = np.array([0, 0, 500, 500])
 	yHAWT = np.array([0, 500, 0, 500])
-	xVAWT = np.array([250])
-	yVAWT = np.array([0])
+	xVAWT = np.array([])
+	yVAWT = np.array([])
 
 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
 	nVAWT = len(xVAWT)
@@ -64,12 +64,12 @@ if __name__=="__main__":
 	rh = 40.
 	rv = 3.
 	rt = 5.
-	direction = -91.
+	direction = 48.
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
 
 	params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
-	mu = 10.
+	mu = 1000.
 	args = (params, mu, xupper, yupper)
 	print "START: ", obj(xin, params)
 	

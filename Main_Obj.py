@@ -45,7 +45,7 @@ def obj(xin,params):
 	VAWT_Pow = VAWT_Power(xrVAWT, yrVAWT, xrHAWT, yrHAWT, paramsVAWT)
 
 	Ptotal = np.sum(HAWT_Pow) + np.sum(VAWT_Pow)
-	return Ptotal/1000000
+	return -Ptotal/1000000
 
 
 def con(xin, params):

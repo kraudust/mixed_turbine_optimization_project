@@ -7,24 +7,24 @@ from Main_Obj import *
 
 if __name__=="__main__":
 	"Define Variables"
-	xHAWT = np.array([0, 0, 500, 500])
-	yHAWT = np.array([0, 500, 0, 500])
-	xVAWT = np.array([0, 250])
-	yVAWT = np.array([250, 250])
+	xHAWT = np.array([0, 0])
+	yHAWT = np.array([0, 500])
+	xVAWT = np.array([])
+	yVAWT = np.array([])
 
 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
 	nVAWT = len(xVAWT)
 	rh = 40.
 	rv = 3.
 	rt = 5.
-	direction = -91.
+	direction = 2
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
 
 	params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
 	
 
-	boundaries = bounds(xin, params, 750, 750)
+	boundaries = bounds(xin, params, 1000, 1000)
 	
 	options = {'disp': True, 'maxiter': 1000}
 	constraints = {'type': 'ineq', 'fun': con, 'args': (params,)}
@@ -32,7 +32,7 @@ if __name__=="__main__":
 	print "Start Power: ", obj(xin, params)
 	print "Start Constraints: ", con(xin, params)
 
-	res = minimize(obj, xin, args=(params,), method='SLSQP', jac=False, bounds=boundaries, tol=1e-6, constraints=constraints, options=options)
+	res = minimize(obj, xin, args=(params,), method='SLSQP', jac=False, bounds=boundaries, tol=1e-9, constraints=constraints, options=options)
 	
 	
 	print "Optimized Power: ", obj(res.x, params)
