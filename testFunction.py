@@ -35,7 +35,7 @@ if __name__=="__main__":
 	for i in range(len(power)):
 		xHAWT = np.array([0])
 		yHAWT = np.array([250])
-		xVAWT = np.array([500])
+		xVAWT = np.array([100])
 		yVAWT = np.array([x[i]])
 
 		xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])

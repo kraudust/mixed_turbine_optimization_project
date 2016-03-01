@@ -24,7 +24,7 @@ if __name__=="__main__":
 	params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
 	
 
-	boundaries = bounds(xin, params, 1000, 1000)
+	boundaries = bounds(xin, params, 500, 500)
 	
 	options = {'disp': True, 'maxiter': 1000}
 	constraints = {'type': 'ineq', 'fun': con, 'args': (params,)}
