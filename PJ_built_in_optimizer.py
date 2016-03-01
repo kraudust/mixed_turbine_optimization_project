@@ -7,17 +7,17 @@ from Main_Obj import *
 
 if __name__=="__main__":
 	"Define Variables"
-	xHAWT = np.array([0, 0])
-	yHAWT = np.array([0, 500])
-	xVAWT = np.array([])
-	yVAWT = np.array([])
+	xHAWT = np.array([0, 0, 500, 500])
+	yHAWT = np.array([0, 500, 0, 500])
+	xVAWT = np.array([250, 250])
+	yVAWT = np.array([0, 250])
 
 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
 	nVAWT = len(xVAWT)
 	rh = 40.
 	rv = 3.
 	rt = 5.
-	direction = 2
+	direction = 1
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
 
