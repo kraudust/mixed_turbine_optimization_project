@@ -6,21 +6,23 @@ from scipy.optimize import minimize
 def calc_constraints(xin, params):
 	xupper = 1000
 	yupper = 1000
+	
+	#split into x and y loactions for VAWT and HAWT
 	xVAWT = xin[0 : nVAWT]
 	yVAWT = xin[nVAWT: 2*nVAWT]
 	xHAWT = xin[2*nVAWT: 2*nVAWT + nHAWT]
 	yHAWT = xin[2*nVAWT + nHAWT : len(xin)]
 	const = con(xin, params)
 	for i in range(0, len(xVAWT)):
-		const = np.append(const, xVAWT)
-		const = np.append(const, xupper - xVAWT)
-		const = np.append(const, yVAWT)
-		const = np.append(const, yupper - yVAWT)
+		const = np.append(const, xVAWT[i])
+		const = np.append(const, xupper - xVAWT[i])
+		const = np.append(const, yVAWT[i])
+		const = np.append(const, yupper - yVAWT[i])
 	for i in range(0, len(xHAWT)):
-		const = np.append(const, xHAWT)
-		const = np.append(const, xupper - xHAWT)
-		const = np.append(const, yVAWT)
-		const = np.append(const, yupper - yHAWT)
+		const = np.append(const, xHAWT[i])
+		const = np.append(const, xupper - xHAWT[i])
+		const = np.append(const, yHAWT[i])
+		const = np.append(const, yupper - yHAWT[i])
 	return const
 	
 def penalty_obj(xin, args):
@@ -40,17 +42,16 @@ def penalty_obj(xin, args):
 	Returns:
 		new_obj: previous objective function plus a log penalty on constraints
 	"""
-	params = args[0:6]
-	mu = args[6]
-	obj_han = args[7]
-	con_han = args[8]
+	params = args[0]
+	mu = args[1]
+	obj_han = args[2]
+	con_han = args[3]
 	const = con_han(xin, params)
 	sum_quad = 0
 	for i in range(0, len(const)):
 	#	if const[i] <= 0:
 	#		const[i] = -1000 #really penalize bad constraints
-		ind_quad = np.min([0, const[i]])**2
-		sum_quad = sum_quad + ind_quad
+		sum_quad += np.min([0, const[i]])**2
 	new_obj = obj_han(xin, params) + (mu/2)*sum_quad
 	return new_obj
 
@@ -71,20 +72,18 @@ def run_optimizer(xin, params, obj_han, con_han):
 		x_opt: optimum x value (nparray)
 	"""
 	mu = 1. 
-	options = {'disp': True, 'maxiter': 2000}
-	args = np.hstack([params, mu, obj_han, con_han])
-	res = minimize(penalty_obj, xin, args = (args,), method = 'BFGS', jac = False, tol = 1e-9, options = options)
-	x_opt = res.x
-	x_dif = 1
-	while x_dif >= 1.e-6:
-		x_prev = x_opt
-		mu = mu*2
-		options = {'disp': True, 'maxiter': 2000}
-		args = np.hstack([params, mu, obj_han, con_han])
-		res = minimize(penalty_obj, x_prev, args = (args,), method = 'BFGS', jac = False, tol = 1e-9, options = options)
-		x_opt = res.x
-		x_dif = obj_han(x_opt, params) - obj_han(x_prev, params)
-	return x_opt
+	options = {'disp': True}
+	args = (params, mu, obj_han, con_han)
+	dif = 1.
+	while abs(dif) >= 1.e-6:
+		prev = penalty_obj(xin, args)
+		options = {'disp': True}
+		res = minimize(penalty_obj, xin, args = (args,), method = 'BFGS', options = options)
+		mu = mu*2.
+		args = (params, mu, obj_han, con_han)
+		xin = res.x
+		dif = penalty_obj(xin, args) - prev
+	return xin
 
 def plot_func(xin, x_opt):
 	xVAWT_opt = x_opt[0 : nVAWT]
@@ -141,10 +140,10 @@ if __name__=="__main__":
 	U_vel = 8.
 	params = [nVAWT, rh, rv, rt, dir_rad, U_vel]
 	#print "Original Power: ", -obj(xin, params)*1.e6
-	x_opt = run_optimizer(x0, params, obj, con)
-	print "Old x", x0
+	x_opt = run_optimizer(xin, params, obj, calc_constraints)
+	print "Old x", xin
 	print "New x", x_opt
-	#plot_func(xin, x_opt)
+	plot_func(xin, x_opt)
 	
 	
 	
