@@ -4,11 +4,14 @@ from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
 if __name__=="__main__":
-	xHAWT = np.array([0, 0, 0, 700, 700, 700])
-	yHAWT = np.array([0, 350, 700, 0, 350, 700])
-	xVAWT = np.array([350, 350])
-	yVAWT = np.array([175, 525])
-	
+	#xHAWT = np.array([0, 0, 0, 700, 700, 700])
+	#yHAWT = np.array([0, 350, 700, 0, 350, 700])
+	#xVAWT = np.array([350, 350])
+	#yVAWT = np.array([175, 525])
+	xHAWT = np.array([0, 0, 0, 95, 95, 95])
+	yHAWT = np.array([0, 50, 100, 0, 50, 100])
+	xVAWT = np.array([50, 50])
+	yVAWT = np.array([0, 50])
 	#set input variable xin
 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
 
@@ -18,7 +21,7 @@ if __name__=="__main__":
 	rh = 40.
 	rv = 3.
 	rt = 5.
-	direction = -95. #wind coming from 
+	direction = 10. #wind coming from 
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
 	params = [nVAWT, rh, rv, rt, dir_rad, U_vel]
