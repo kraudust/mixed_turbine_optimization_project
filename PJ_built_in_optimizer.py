@@ -7,24 +7,24 @@ from Main_Obj import *
 
 if __name__=="__main__":
 	"Define Variables"
-	xHAWT = np.array([0, 0, 500, 500])
-	yHAWT = np.array([0, 500, 0, 500])
-	xVAWT = np.array([250, 250])
-	yVAWT = np.array([0, 250])
+	xHAWT = np.array([0, 0, 0, 700, 700, 700])
+	yHAWT = np.array([0, 350, 700, 0, 350, 700])
+	xVAWT = np.array([350, 350])
+	yVAWT = np.array([175, 525])
 
 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
 	nVAWT = len(xVAWT)
 	rh = 40.
 	rv = 3.
 	rt = 5.
-	direction = 1
+	direction = -95
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
 
 	params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
 	
 
-	boundaries = bounds(xin, params, 500, 500)
+	boundaries = bounds(xin, params, 1000, 1000)
 	
 	options = {'disp': True, 'maxiter': 1000}
 	constraints = {'type': 'ineq', 'fun': con, 'args': (params,)}
