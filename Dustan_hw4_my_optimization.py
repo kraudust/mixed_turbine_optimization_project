@@ -116,32 +116,33 @@ def test_con(xin, params):
 	return constraints
 
 if __name__=="__main__":
-	#xHAWT = np.array([0, 0, 0, 700, 700, 700])
-	#yHAWT = np.array([0, 350, 700, 0, 350, 700])
-	#xVAWT = np.array([350, 350])
-	#yVAWT = np.array([175, 525])
-	xHAWT = np.array([0, 700])
-	yHAWT = np.array([0, 350])
-	xVAWT = np.array([350])
-	yVAWT = np.array([350])
+	xHAWT = np.array([0, 0, 0, 95, 95, 95])
+	yHAWT = np.array([0, 50, 100, 0, 50, 100])
+	xVAWT = np.array([50, 50])
+	yVAWT = np.array([0, 50])
+	
+	#xHAWT = np.array([0, 0, 0, 500, 500, 500, 1000, 1000, 1000])
+	#yHAWT = np.array([0, 50, 100, 0, 500, 1000, 0, 500, 1000])
+	#xVAWT = np.array([])
+	#yVAWT = np.array([])
+	
 	#set input variable xin
 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
-	xupper = 1000
-	yupper = 1000
-	x0 = [7,11, 17, 23,76]
+	
 	#set input parameters
 	nVAWT = len(xVAWT)
 	nHAWT = len(xHAWT)
 	rh = 40.
 	rv = 3.
 	rt = 5.
-	direction = -95.
+	direction = 10.
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
 	params = [nVAWT, rh, rv, rt, dir_rad, U_vel]
-	#print "Original Power: ", -obj(xin, params)*1.e6
-	x_opt = run_optimizer(xin, params, obj, calc_constraints)
+	print "Original Power: ", -obj(xin, params)*1.e6
 	print "Old x", xin
+	x_opt = run_optimizer(xin, params, obj, calc_constraints)
+	print "New Power: ", -obj(x_opt, params)*1.e6
 	print "New x", x_opt
 	plot_func(xin, x_opt)
 	
