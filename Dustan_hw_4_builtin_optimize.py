@@ -1,12 +1,9 @@
 import numpy as np
 from Main_Obj import *
 from scipy.optimize import minimize
+import matplotlib.pyplot as plt
 
 if __name__=="__main__":
-	#xHAWT = np.array([0, 0, 0, 200, 200, 200, 400, 400, 400])
-	#yHAWT = np.array([0, 200, 400, 0, 200, 400, 0, 200, 400])
-	#xVAWT = np.array([100, 100, 100, 300, 300, 300])
-	#yVAWT = np.array([100, 200, 300, 100, 200, 300])
 	xHAWT = np.array([0, 0, 0, 300, 300, 300])
 	yHAWT = np.array([0, 150, 300, 0, 150, 300])
 	xVAWT = np.array([150, 75])
