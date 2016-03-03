@@ -4,10 +4,10 @@ from scipy.optimize import minimize
 
 if __name__=="__main__":
 
-	xHAWT = np.array([0,0,1000,1000])
-	yHAWT = np.array([0,1000,0,1000])
-	xVAWT = np.array([0,500])
-	yVAWT = np.array([500,500])
+	xHAWT = np.array([0,50,100,250])
+	yHAWT = np.array([100,150,100,300])
+	xVAWT = np.array([150,200])
+	yVAWT = np.array([100,200])
 
 
 	#Define Xin so that the optimizer understands it
@@ -46,10 +46,13 @@ if __name__=="__main__":
 	yHAWT_opt = optX[2*nVAWT + nHAWT : len(xin)]
 
 	plt.figure()
-	plt.scatter(xVAWT, yVAWT,s=(np.pi*rv**2.), c = 'k')
-	plt.scatter(xVAWT_opt, yVAWT_opt,s=(np.pi*rv**2.), c = 'r')
-	plt.scatter(xHAWT, yHAWT,s=(15*np.pi*rt**2.), c = 'c')
-	plt.scatter(xHAWT_opt, yHAWT_opt,s=(15*np.pi*rt**2.), c = 'g')
+	plt.scatter(xVAWT, yVAWT,s=(np.pi*rv**2.), c = 'k',label= "Starting Vertical")
+	plt.scatter(xVAWT_opt, yVAWT_opt,s=(np.pi*rv**2.), c = 'r',label = "Opt. Vertical")
+	plt.scatter(xHAWT, yHAWT,s=(7*np.pi*rt**2.), c = 'c',label = "Starting Horizontal")
+	plt.scatter(xHAWT_opt, yHAWT_opt,s=(7*np.pi*rt**2.), c = 'g', label = "Opt. Horizontal")
+	plt.ylabel("y-direction (m)")
+	plt.xlabel("x-direction (m)")
+	plt.title("Built-in Optimizer")
+	plt.legend(loc=1)
 	plt.show()
-
 

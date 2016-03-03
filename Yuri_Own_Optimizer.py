@@ -68,10 +68,10 @@ def test_con(xin,params):
 
 
 if __name__ == '__main__':
-    xHAWT = np.array([0,1,2])
-    yHAWT = np.array([0,1,2])
-    xVAWT = np.array([0])
-    yVAWT = np.array([5])
+    xHAWT = np.array([0,100,200,250])
+    yHAWT = np.array([1000,400,100,50])
+    xVAWT = np.array([50,250])
+    yVAWT = np.array([500,450])
     xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
 
 
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     rh = 40.
     rv = 3.
     rt = 5.
-    direction = -91.
+    direction = -95.
     dir_rad = (direction+90) * np.pi / 180.
     U_vel = 8.
     params = [nVAWT, rh, rv, rt, dir_rad, U_vel]
@@ -101,9 +101,12 @@ if __name__ == '__main__':
     yHAWT_opt = optX[2*nVAWT + nHAWT : len(xin)]
 
     plt.figure()
-    plt.scatter(xVAWT, yVAWT,s=(np.pi*rv**2.), c = 'k',label= "Starting Horizontal")
-    plt.scatter(xVAWT_opt, yVAWT_opt,s=(np.pi*rv**2.), c = 'r',label = "Opt. Horizontal")
-    plt.scatter(xHAWT, yHAWT,s=(15*np.pi*rt**2.), c = 'c',label = "Starting Vertical")
-    plt.scatter(xHAWT_opt, yHAWT_opt,s=(15*np.pi*rt**2.), c = 'g', label = "Opt. Vertical")
-    plt.legend(loc=2)
+    plt.scatter(xVAWT, yVAWT,s=(np.pi*rv**2.), c = 'k',label= "Starting Vertical")
+    plt.scatter(xVAWT_opt, yVAWT_opt,s=(np.pi*rv**2.), c = 'r',label = "Opt. Vertical")
+    plt.scatter(xHAWT, yHAWT,s=(7*np.pi*rt**2.), c = 'c',label = "Starting Horizontal")
+    plt.scatter(xHAWT_opt, yHAWT_opt,s=(7*np.pi*rt**2.), c = 'g', label = "Opt. Horizontal")
+    plt.ylabel("y-direction (m)")
+    plt.xlabel("x-direction (m)")
+    plt.title("Own Quadratic Penalty Optimizer")
+    plt.legend(loc=1)
     plt.show()
