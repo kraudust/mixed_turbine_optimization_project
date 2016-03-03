@@ -4,10 +4,10 @@ from scipy.optimize import minimize
 
 if __name__=="__main__":
 
-	xHAWT = np.array([0, 0])
-	yHAWT = np.array([0, 300])
-	xVAWT = np.array([50])
-	yVAWT = np.array([50])
+	xHAWT = np.array([0,0,1000,1000])
+	yHAWT = np.array([0,1000,0,1000])
+	xVAWT = np.array([0,500])
+	yVAWT = np.array([500,500])
 
 
 	#Define Xin so that the optimizer understands it
@@ -19,22 +19,25 @@ if __name__=="__main__":
 	rh = 40.
 	rv = 3.
 	rt = 5.
-	direction = 15.   # Degrees
+	direction = -95.   # Degrees
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
 	params = [nVAWT, rh, rv, rt, dir_rad, U_vel]
-	print "Original Power: ", obj(xin, params)
 
 	#-------------------------Optimization----------------------------------
-	xupper = 2000 #x upper bound of the wind farm (lower set at 0)
-	yupper = 1950 #y upper bound of the wind farm (lower set at 0)
+	xupper = 1200 #x upper bound of the wind farm (lower set at 0)
+	yupper = 1200 #y upper bound of the wind farm (lower set at 0)
 	bound_con = bounds(xin, params, xupper, yupper)
 	ineq_con = {'type': 'ineq', 'fun': con, 'args': (params,)}
 	options = {'disp': True, 'maxiter': 2000}
-	res = minimize(obj, xin, args = (params,), method = 'SLSQP', jac = False, bounds = bound_con, constraints = ineq_con, tol = 1e-6, options = options)
+	res = minimize(obj, xin, args = (params,), method = 'SLSQP', jac = False, bounds = bound_con, constraints = ineq_con, tol = 1e-9, options = options)
 	optX = res.x
 	optCON = con(optX, params)
 
+	print "Original Power: ", -obj(xin, params)*1.e6
+	print "Old X:", xin
+	print "New OptX:", optX
+	print "New Power", -obj(optX,params)*1.e6
 
 	#--------------------------Plots-----------------------------------
 	xVAWT_opt = optX[0 : nVAWT]
