@@ -20,7 +20,7 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
             R_wake = tan(theta) * dx + r_tower
             dy = abs(y_v[i] - y_h[j])
             if dx > 0:
-                if abs(dy) >= R_wake + r_tower:
+                if abs(dy) >= R_wake + r_tower:   #Rwake +rtower is equal to total Rwake
                     overlap_cyl[i][j] = 0
                 elif abs(dy) <= R_wake - r_tower:
                     overlap_cyl[i][j] = 1.0
@@ -28,12 +28,12 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
                     beta = dx * tan(theta) - (dy - r_tower)
                     if beta > 0:
                         d = beta * cos(theta)
-                        phi = 2. * atan(d/r_vawt)
+                        phi = 2. * acos(d/r_vawt)
                         area_overlap = (r_vawt**2./2.) * (phi - sin(phi))
                         overlap_cyl[i][j] = 1 - area_overlap/area_vawt
                     else:
                         d = beta * cos(theta)
-                        phi = 2. * atan(d/r_vawt)
+                        phi = 2. * acos(d/r_vawt)
                         area_overlap = area_vawt - (r_vawt**2./2.) * (phi - sin(phi))
                         overlap_cyl[i][j] = area_overlap/area_vawt
             else:
@@ -43,6 +43,7 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
 
 
 def loss_cylinder(x_h, y_h, x_v, y_v, r_tower, r_vawt):
+
     theta = 10.0*pi/180.
     loss = np.zeros(np.size(x_h))
     loss_squared = np.zeros(np.size(x_h))
@@ -51,9 +52,11 @@ def loss_cylinder(x_h, y_h, x_v, y_v, r_tower, r_vawt):
     overlap_cyl = overlap_cylinder(x_h, y_h, x_v, y_v, r_tower, r_vawt)
     for i in range(len(x_v)):
         for j in range(len(x_h)):
+            dy = abs(y_v[i] - y_h[j])
             dx = x_v[i] - x_h[j]
+            R_wake = tan(theta) * dx + r_tower
             if dx > 0:
-                loss[j] = overlap_cyl[i][j] * sqrt((3*r_tower+Cd*r_tower)/(3*r_tower + 2*dx*tan(theta)))
+                loss[j] = overlap_cyl[i][j] * sqrt((3*r_tower+Cd*r_tower)/(3*r_tower + 2*dx*tan(theta)))*(cos(-dy*pi/(R_wake+4*r_vawt)))
                 loss_squared [j] = loss[j]**2
             else:
                 loss[j] = 0
@@ -103,7 +106,7 @@ if __name__ == '__main__':
     r_tower = 40.
     r_vawt = 50.
     print overlap_cylinder(x_h,y_h, x_v, y_v, r_tower, r_vawt)
-    print loss_cylinder(x_h, y_h, x_v, y_v, r_tower, r_vawt)
+    #print loss_cylinder(x_h, y_h, x_v, y_v, r_tower, r_vawt)
     #plot = cylinder_plot(x,y,r_tower,alpha,U_direction_radians)
     plt.scatter(x_h,y_h)
     plt.scatter(x_v,y_v,c='r')
