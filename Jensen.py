@@ -21,6 +21,7 @@ THINGS TO MAKE IT BETTER
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
+from math import cos, pi
 
 def Jensen_Wake_Model(xHAWT, yHAWT, params):
     theta = 0.1
@@ -71,14 +72,17 @@ def overlap(x, xdown, y, ydown, r, alpha):
 
 
 #Jensen wake decay to determine the total velocity deficit at each turbine
-def loss(r_0, a, alpha, x_focus, x, overlap):
+def loss(r_0, a, alpha, x_focus, x, y_focus, y, overlap):
     loss = np.zeros(np.size(x))
     loss_squared = np.zeros(np.size(x))
-    dx = np.zeros(np.size(x))
+    dx = np.zeros(len(x))
+    dy = np.zeros(len(y))
     for i in range(0, np.size(x)):
-        dx[i] = x_focus-x[i]
-        if dx[i] > 0:
-            loss[i] = overlap[i]*2.*a*(r_0/(r_0+alpha*(dx[i])))**2
+        dx = x_focus-x[i]
+        dy = abs(y_focus-y[i])
+        R = r_0+dx*alpha
+        if dx > 0:
+            loss[i] = overlap[i]*2.*a*(r_0/(r_0+alpha*(dx)))**2*0.5*(cos(-dy*pi/(R+4*r_0)))
             loss_squared[i] = loss[i]**2
         else:
             loss[i] = 0
@@ -95,7 +99,7 @@ def jensen_power(x, y, r_0, alpha, a, U_velocity, rho, Cp):
     # print "\nOverlap Fraction Matrix"
     for i in range(0, np.size(x)):
         overlap_fraction = overlap(x, x[i], y, y[i], r_0, alpha)
-        total_loss[i] = loss(r_0, a, alpha, x[i], x, overlap_fraction)
+        total_loss[i] = loss(r_0, a, alpha, x[i], x, y[i], y, overlap_fraction)
         V[i] = (1-total_loss[i])*U_velocity
     # print V
     # print "Total Loss: ", total_loss
