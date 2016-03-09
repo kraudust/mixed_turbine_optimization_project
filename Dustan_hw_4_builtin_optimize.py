@@ -4,14 +4,14 @@ from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
 if __name__=="__main__":
-	#xHAWT = np.array([0, 0, 0, 700, 700, 700])
-	#yHAWT = np.array([0, 350, 700, 0, 350, 700])
-	#xVAWT = np.array([350, 350])
-	#yVAWT = np.array([175, 525])
-	xHAWT = np.array([0, 0, 0, 95, 95, 95])
-	yHAWT = np.array([0, 50, 100, 0, 50, 100])
-	xVAWT = np.array([50, 50])
-	yVAWT = np.array([0, 50])
+	xHAWT = np.array([250, 260, 270, 350, 360, 370])
+	yHAWT = np.array([0, 100, 200, 0, 100, 200])
+	xVAWT = np.array([0, 350])
+	yVAWT = np.array([175, 525])
+	#xHAWT = np.array([0, 0, 0, 95, 95, 95])
+	#yHAWT = np.array([0, 50, 100, 0, 50, 100])
+	#xVAWT = np.array([50, 50])
+	#yVAWT = np.array([0, 50])
 	#set input variable xin
 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
 
@@ -45,9 +45,12 @@ if __name__=="__main__":
 	yHAWT_opt = x_opt[2*nVAWT + nHAWT : len(xin)]
 	
 	plt.figure()
-	plt.scatter(xVAWT, yVAWT, c = 'r', s = 60)
-	plt.scatter(xVAWT_opt, yVAWT_opt, c = 'r', s = 100)
-	plt.scatter(xHAWT, yHAWT, c = 'b', s = 60)
-	plt.scatter(xHAWT_opt, yHAWT_opt, c = 'b', s = 100)
+	plt.scatter(xVAWT, yVAWT, c = 'r', s = 60, label = "VAWT init")
+	plt.scatter(xVAWT_opt, yVAWT_opt, c = 'r', s = 100, label = "VAWT opt")
+	plt.scatter(xHAWT, yHAWT, c = 'b', s = 60, label = "HAWT init")
+	plt.scatter(xHAWT_opt, yHAWT_opt, c = 'b', s = 100, label = "HAWT opt")
+	plt.legend()
+	plt.xlabel("x dir (m)")
+	plt.ylabel("y dir (m)")
 	plt.show()
 	print "New Power: ", -obj(x_opt,params)*1.e6
