@@ -40,17 +40,18 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
                 '''
                 if abs(dy) >= R_wake + r_vawt:
                     overlap_cyl[i][j] = 0
-                if abs(dy) <= R_wake - r_vawt:
+                elif abs(dy) <= R_wake - r_vawt:
                 	overlap_cyl[i][j] = 1.0
-                if abs(dy) == R_wake:
+                elif abs(dy) == R_wake:
                     overlap_cyl[i][j] = 0.5
                 else:
-                    beta = dx*tan(theta) + r_tower - dy
-                    if abs(dy) < R_wake:
+                    beta = R_wake - abs(dy)
+                    if abs(dy) < R_wake and abs(dy) > R_wake - r_vawt:
                         d = beta*cos(theta)
                     else:
                         d = -beta*cos(theta)
-                area_overlap = r_vawt**2*acos(d/r_vawt) - d*sqrt(r_vawt**2 - d**2)
+                    area_overlap = r_vawt**2*acos(d/r_vawt) - d*sqrt(r_vawt**2 - d**2)
+                    overlap_cyl[i][j] = area_overlap/area_vawt
             else:
                 overlap_cyl[i][j] = 0
 
