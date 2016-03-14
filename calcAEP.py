@@ -22,7 +22,7 @@ def speed_frequ(speeds):
     x2 = x1+dx
     location = size
     frequency = np.zeros(speeds)
-    for i in range(0, speeds):
+    for i in range(3, speeds):
         while x1 <= location:
             dfrequency = dx*(weibull_prob(x1)+weibull_prob(x2))/2
             frequency[i] += dfrequency
@@ -68,13 +68,17 @@ def calc_AEP(xin, params, numDir, numSpeed):
     U_vel = params[5]
     freqDir = frequ(numDir)
     freqSpeed = speed_frequ(numSpeed)
+    # print "Direction Frequency Vector: ", freqDir
+    # print "Speed Fequency Vector: ", freqSpeed
     AEP = 0
     for i in range(numDir):
         binSizeDir = 2.*pi/numDir
         direction = i*binSizeDir+binSizeDir/2.
+        # print "Direction: ", i
         for j in range(numSpeed):
-            binSizeSpeed = 2.*pi/numSpeed
-            speed = j*binSizeSpeed+binSizeSpeed/2.
+            # print "Speed: ", j
+            binSizeSpeed = 27./numSpeed
+            speed = 3+j*binSizeSpeed+binSizeSpeed/2.
             params = tuple([nVAWT, rh, rv,rt, direction, speed])
             AEP += freqDir[i]*freqSpeed[j]*-1.e6*obj(xin, params)*24.*365.
 
@@ -83,15 +87,24 @@ def calc_AEP(xin, params, numDir, numSpeed):
 
 if __name__=="__main__":
 
-    xHAWT = np.array([0,1000,2000,3000,4000,5000,6000,7000,8000])
+    xHAWT = np.array([0,0,0,500,500,500,1000,1000,1000])
     yHAWT = np.array([0,500,1000,0,500,1000,0,500,1000])
-    xVAWT = np.array([])
-    yVAWT = np.array([])
+    rh = 40.
+    nRows = 10   # number of rows and columns in grid
+    spacing = 5     # turbine grid spacing in diameters
+
+    """points = np.linspace(start=0, stop=(nRows-1)*spacing*rh, num=nRows)
+    xpoints, ypoints = np.meshgrid(points, points)
+    xHAWT = np.ndarray.flatten(xpoints)
+    yHAWT = np.ndarray.flatten(ypoints)"""
+
+    xVAWT = np.array([250])
+    yVAWT = np.array([250])
 
 
     xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
     nVAWT = len(xVAWT)
-    rh = 40.
+    
     rv = 3.
     rt = 5.
     direction = 5.
@@ -99,12 +112,19 @@ if __name__=="__main__":
     U_vel = 8.
 
     params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
+    print "Running..."
 
-    AEP = np.array([])
+
+    print calc_AEP(xin, params, 20,20)
+    """for i in range(1,100):
+        print i
+        print calc_AEP(xin, params, i,10), "MWhrs"""
+    
+    """AEP = np.array([])
     for i in range(1, 72):
         AEP = np.append(AEP, calc_AEP(xin, params, i, 30))
         print calc_AEP(xin, params, i, 30)
         print i
-        np.savetxt("numDirConvergence.txt", np.c_[AEP])
+        np.savetxt("numDirConvergence.txt", np.c_[AEP])"""
     
     
