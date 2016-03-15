@@ -6,7 +6,7 @@ from Main_Obj import *
 from datetime import datetime
 from scipy.interpolate import interp1d
 from pyoptwrapper import optimize
-from pyoptsparse import NSGA2
+from pyoptsparse import NSGA2, SNOPT
 
 
 def weibull_prob(x):
@@ -64,28 +64,29 @@ def frequ(bins):
 def calc_AEP(xin):
 	
 	# nVAWT, rh, rv, rt, U_dir, U_vel, numDir, numSpeed = params
-	nVAWT = 9
+	nVAWT = 0
     
+	rh = 40.
 	rv = 3.
 	rt = 5.
 	direction = 5.
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
-	numDir = 5
-	numSpeed = 10
+	numDir = 1
+	numSpeed = 4
 	freqDir = frequ(numDir)
 	freqSpeed = speed_frequ(numSpeed)
 	nTurbs = len(xin)/2
 	params1 = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
-	print "Direction Frequency Vector: ", freqDir
-	print "Speed Fequency Vector: ", freqSpeed
+	#print "Direction Frequency Vector: ", freqDir
+	#print "Speed Fequency Vector: ", freqSpeed
 	AEP = 0
 	for i in range(numDir):
 		binSizeDir = 2.*pi/numDir
 		direction = i*binSizeDir+binSizeDir/2.
-		print "Direction: ", i
+		#print "Direction: ", i
 		for j in range(numSpeed):
-			print "Speed: ", j
+			#print "Speed: ", j
 			binSizeSpeed = 27./numSpeed
 			speed = 3+j*binSizeSpeed+binSizeSpeed/2.
 			params = tuple([nVAWT, rh, rv,rt, direction, speed])
@@ -144,10 +145,11 @@ if __name__=="__main__":
 	xpoints, ypoints = np.meshgrid(points, points)
 	xHAWT = np.ndarray.flatten(xpoints)
 	yHAWT = np.ndarray.flatten(ypoints)"""
-
-	xVAWT = np.array([250,250,250,750,750,750,1250,1250,1250])
-	yVAWT = np.array([250,750,1250,250,750,1250,250,750,1250])
-
+	
+	xVAWT = np.array([])
+	yVAWT = np.array([])
+	# xVAWT = np.array([250,250,250,750,750,750,1250,1250,1250])
+	# yVAWT = np.array([250,750,1250,250,750,1250,250,750,1250])
 
 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
 	nVAWT = len(xVAWT)
@@ -158,7 +160,7 @@ if __name__=="__main__":
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
 	numDir = 5
-	numSpeed = 10
+	numSpeed = 5
 	lower = np.zeros(len(xin))
 	upper = np.ones(len(xin))*1500
 
@@ -167,8 +169,8 @@ if __name__=="__main__":
 
 
 	startTime = datetime.now()
-	optimizer = NSGA2()
-	optimizer.setOption('maxGen',50)
+	optimizer = SNOPT()
+	# optimizer.setOption('maxGen',50)
 	xopt, fopt, info = optimize(calc_AEP, xin, lower, upper, optimizer)
 	print "Time to run: ", datetime.now()-startTime
 
