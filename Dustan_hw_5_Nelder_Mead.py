@@ -1,7 +1,11 @@
 import numpy as np
 from math import sqrt
+from scipy.optimize import minimize
 
+global func_calls
 def mul_dim_rosen(x):
+	global func_calls
+	func_calls += 1
 	n = len(x) #number of dimensions
 	if n < 2:
 		return "Error, there need to be at least 2 dimensions"
@@ -39,8 +43,7 @@ def simplex(fun, x0, c):
 	best = np.argmin(vertices) #index of the best point
 	fw = vertices[worst] #function value of the worst point
 	fb = vertices[best] #function value of the best point
-	
-	while (fw - fb) > 1e-3:
+	while (fw - fb) > 1e-6:
 		vertices = np.array([]) #this is the function value at each vertice of the tetrahedron
 		for i in range(n+1):
 			vertices = np.append(vertices, fun(xin[i]))
@@ -60,13 +63,13 @@ def simplex(fun, x0, c):
 	
 		#Evaluate x average and perform reflection
 		xa = (1./n)*sum(xin) #average of points excluding the worst
-		alpha_r = 1.
+		alpha_r = 1. 
 		xr = xa + alpha_r*(xa-xw)
 		fr = fun(xr)
 	
 		#If reflection is better than best, look at expanding
 		if fr < fb:
-			alpha_e = 1.
+			alpha_e = 1. 
 			xe = xr + alpha_e*(xr-xa)
 			fe = fun(xe)
 			if fe < fb: #accept expansion
@@ -116,10 +119,22 @@ def simplex(fun, x0, c):
 	return xb
 	
 if __name__=='__main__':
-	x0 = np.array([0.0, 0.0, 0.0])
+	global func_calls
+	func_calls = 0
+	n = 3
+	x0 = 2.*np.ones(n)
 	c = 1.
 	xopt = simplex(mul_dim_rosen, x0, c)
-	print xopt
-	print mul_dim_rosen(xopt)
 	
+	print "------------------------My Nelder-Mead--------------------------"
+	print "xopt: ", xopt
+	print "optimial function value: ", mul_dim_rosen(xopt)
+	print "function calls: ", func_calls, '\n\n'
+	
+	print "--------------Scipy.optimize.minimize Nelder-Mead---------------"
+	options = {'maxfev': 15000}
+	res = minimize(mul_dim_rosen, x0, method = 'Nelder-Mead', options = options)
+	print "xopt: ", res.x
+	print "optimal function value: ", res.fun
+	print "function calls: ", res.nfev
 	
