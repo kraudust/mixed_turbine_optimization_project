@@ -74,8 +74,8 @@ if __name__ == '__main__':
 		x = [0., 0.]
 		function_calls_array = np.array([])
 	
-	'''
-	x = np.zeros(8)
+	
+	x = np.zeros(2)
 	enn = len(x)
 	ub = 5.*np.ones(enn)
 	lb = -5.*np.ones(enn)	
@@ -91,7 +91,7 @@ if __name__ == '__main__':
 	print "fopt: ", fopt
 	print "function calls: ", function_calls 
 	print info, "\n\n"
-	'''
+	
 	
 	# I hard coded these in cuz they were taking forever each time running it
 	function_calls_b = np.array([94, 48774, 86692, 159464, 294067, 512269])

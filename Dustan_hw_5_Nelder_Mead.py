@@ -121,8 +121,8 @@ def simplex(fun, x0, c):
 if __name__=='__main__':
 	global func_calls
 	func_calls = 0
-	n = 3
-	x0 = 2.*np.ones(n)
+	n = 8
+	x0 = 0.*np.ones(n)
 	c = 1.
 	xopt = simplex(mul_dim_rosen, x0, c)
 	
