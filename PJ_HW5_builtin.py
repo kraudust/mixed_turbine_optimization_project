@@ -145,8 +145,10 @@ if __name__=="__main__":
 	xHAWT = np.ndarray.flatten(xpoints)
 	yHAWT = np.ndarray.flatten(ypoints)"""
 	
-	xVAWT = np.array([])
-	yVAWT = np.array([])
+	xVAWT = np.array([0,0,0,500,500,500,1000,1000,1000])
+	yVAWT = np.array([0,500,1000,0,500,1000,0,500,1000])
+	xVAWT = xVAWT + 100
+	yVAWT = yVAWT + 100
 	# xVAWT = np.array([250,250,250,750,750,750,1250,1250,1250])
 	# yVAWT = np.array([250,750,1250,250,750,1250,250,750,1250])
 
@@ -165,6 +167,7 @@ if __name__=="__main__":
 
 	params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel, numDir, numSpeed])
 	print "Running..."
+	#print calc_AEP(xin)
 
 
 	startTime = datetime.now()

@@ -32,6 +32,16 @@ def VAWT_Power(x_v, y_v, x_h, y_h, params):
 	cp = 0.3
 	rho = 1.1716
 	h = 2.*dia
+	# ----------------new stuff------------------------
+	cfd_data = 'velo' #use this for simple wake model
+	men = np.array( [-0.0006344223751663201, 0.01055675755786011, -0.004073212523707764] )
+	spr = np.array( [-0.005187125854670714, 0.06397918461247416, 0.543874357807372] )
+	scl = np.array( [6.667328694868336, 5.617498827673229, 21.520026361522778] )
+	rat = np.array( [-2.129054494312758, 45.17191461412915] )
+	tns = np.array( [-1.5569348878268718, 31.913143231782648] )
+	param = np.array([men,spr,scl,rat,tns])
+	#----------------------------------------------------
+	
 	#loss on a turbine from all the other turbines [Lj1, Lj2, Lj3, Lj4, ..., Lji] where Ljn = loss on turbine j from turbine n
 	ind_loss = np.zeros(n)
 	for i in range(0, n):
@@ -39,7 +49,7 @@ def VAWT_Power(x_v, y_v, x_h, y_h, params):
 			if i == j:
 				ind_loss[j] = 0 #i.e. L11 = L22 = L33 = 0... turbine loss from itself is zero
 			else:
-				ind_loss[j] = 1. - velocity_field(x_v[j], y_v[j], x_v[i], y_v[i], velf, dia, tsr, solidity)
+				ind_loss[j] = 1. - velocity_field(x_v[j], y_v[j], x_v[i], y_v[i], velf, dia, tsr, solidity, cfd_data, param)
 		loss_VT[i] = np.linalg.norm(ind_loss,2) #calculate the sum of the squares (the 2 norm)
 		ind_loss = np.zeros(n)
 	
