@@ -6,7 +6,7 @@ from Main_Obj import *
 from datetime import datetime
 from scipy.interpolate import interp1d
 from pyoptwrapper import optimize
-from pyoptsparse import NSGA2, SNOPT
+from pyoptsparse import NSGA2, SNOPT, ALPSO
 
 
 def weibull_prob(x):
@@ -72,8 +72,8 @@ def calc_AEP(xin):
 	direction = 5.
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
-	numDir = 1
-	numSpeed = 4
+	numDir = 18
+	numSpeed = 18
 	freqDir = frequ(numDir)
 	freqSpeed = speed_frequ(numSpeed)
 	nTurbs = len(xin)/2
@@ -84,9 +84,9 @@ def calc_AEP(xin):
 	for i in range(numDir):
 		binSizeDir = 2.*pi/numDir
 		direction = i*binSizeDir+binSizeDir/2.
-		#print "Direction: ", i
+		print "Direction: ", i
 		for j in range(numSpeed):
-			#print "Speed: ", j
+			print "Speed: ", j
 			binSizeSpeed = 27./numSpeed
 			speed = 3+j*binSizeSpeed+binSizeSpeed/2.
 			params = tuple([nVAWT, rh, rv,rt, direction, speed])
@@ -134,9 +134,8 @@ def calc_AEP(xin):
 
 
 if __name__=="__main__":
-
-	xHAWT = np.array([0,0,0,500,500,500,1000,1000,1000])
-	yHAWT = np.array([0,500,1000,0,500,1000,0,500,1000])
+	xHAWT = np.array([0,0,0,500,500])
+	yHAWT = np.array([0,500,750,0,500])
 	rh = 40.
 	nRows = 10   # number of rows and columns in grid
 	spacing = 5     # turbine grid spacing in diameters
@@ -159,10 +158,10 @@ if __name__=="__main__":
 	direction = 5.
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
-	numDir = 5
-	numSpeed = 5
+	numDir = 18
+	numSpeed = 18
 	lower = np.zeros(len(xin))
-	upper = np.ones(len(xin))*1500
+	upper = np.ones(len(xin))*np.max(xin)
 
 	params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel, numDir, numSpeed])
 	print "Running..."
@@ -170,18 +169,25 @@ if __name__=="__main__":
 
 	startTime = datetime.now()
 	optimizer = SNOPT()
-	# optimizer.setOption('maxGen',50)
+	#optimizer.setOption('maxGen',100)
 	xopt, fopt, info = optimize(calc_AEP, xin, lower, upper, optimizer)
 	print "Time to run: ", datetime.now()-startTime
 
-	print 'NSGA2:'
+	print 'SNOPT:'
 	print 'xopt: ', xopt
 	print 'fopt: ', fopt
 	print 'info: ', info
 
-	print 'Start:'
-	print calc_AEP(xin)[0]
+	#print 'Start:'
+	#print calc_AEP(xin)[0]
 
+	x = xopt[0:len(xopt)/2]
+	y = xopt[len(xopt)/2:len(xopt)]
+	plt.scatter(x,y)
+	plt.title('Optimized Turbine Layout Using Particle Swarm')
+	plt.xlabel('x coordinates (m)')
+	plt.ylabel('y coordinates (m)')
+	plt.show()
 	
 
 
