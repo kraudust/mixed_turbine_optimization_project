@@ -72,8 +72,8 @@ def calc_AEP(xin):
 	direction = 5.
 	dir_rad = (direction+90) * np.pi / 180.
 	U_vel = 8.
-	numDir = 1
-	numSpeed = 4
+	numDir = 18
+	numSpeed = 18
 	freqDir = frequ(numDir)
 	freqSpeed = speed_frequ(numSpeed)
 	nTurbs = len(xin)/2
@@ -146,8 +146,10 @@ if __name__=="__main__":
 	xHAWT = np.ndarray.flatten(xpoints)
 	yHAWT = np.ndarray.flatten(ypoints)"""
 	
-	xVAWT = np.array([])
-	yVAWT = np.array([])
+	xVAWT = np.array([0,0,0,500,500,500,1000,1000,1000])
+	yVAWT = np.array([0,500,1000,0,500,1000,0,500,1000])
+	xVAWT = xVAWT + 100
+	yVAWT = yVAWT + 100
 	# xVAWT = np.array([250,250,250,750,750,750,1250,1250,1250])
 	# yVAWT = np.array([250,750,1250,250,750,1250,250,750,1250])
 
@@ -166,6 +168,7 @@ if __name__=="__main__":
 
 	params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel, numDir, numSpeed])
 	print "Running..."
+	#print calc_AEP(xin)
 
 
 	startTime = datetime.now()
@@ -174,7 +177,7 @@ if __name__=="__main__":
 	xopt, fopt, info = optimize(calc_AEP, xin, lower, upper, optimizer)
 	print "Time to run: ", datetime.now()-startTime
 
-	print 'NSGA2:'
+	print 'SNOPT:'
 	print 'xopt: ', xopt
 	print 'fopt: ', fopt
 	print 'info: ', info

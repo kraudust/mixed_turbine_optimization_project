@@ -40,12 +40,13 @@ def AEP(xin, params):
 	return -AEP/1e12, -constraints
 	
 if __name__=="__main__":
+
 	global func_call
 	func_call = 0
 	xHAWT = np.array([400, 400, 500, 600, 600])
 	yHAWT = np.array([400, 600, 500, 400, 600])
-	#xHAWT = np.array([400, 400])
-	#yHAWT = np.array([400, 500])
+	#xVAWT = np.array([400, 400])
+	#yVAWT = np.array([400, 500])
 	xVAWT = np.array([])
 	yVAWT = np.array([])
 
@@ -59,6 +60,8 @@ if __name__=="__main__":
 	numDir = 8
 	numSpeed = 5 #why can I only do 4 or more speeds?
 	params = [nVAWT, rh, rv, rt, numDir, numSpeed]
+	AEP(xin, params)
+	
 	lb = np.zeros(len(xin))
 	ub = np.ones(len(xin))*1000.
 	
