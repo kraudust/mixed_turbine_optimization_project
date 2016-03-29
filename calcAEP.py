@@ -98,8 +98,8 @@ if __name__=="__main__":
     xHAWT = np.ndarray.flatten(xpoints)
     yHAWT = np.ndarray.flatten(ypoints)"""
 
-    xVAWT = np.array([250])
-    yVAWT = np.array([250])
+    xVAWT = np.array([250,160])
+    yVAWT = np.array([250,100])
 
 
     xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
@@ -115,7 +115,7 @@ if __name__=="__main__":
     print "Running..."
 
 
-    print calc_AEP(xin, params, 20,20)
+    print calc_AEP(xin, params, 40,40)
     """for i in range(1,100):
         print i
         print calc_AEP(xin, params, i,10), "MWhrs"""
