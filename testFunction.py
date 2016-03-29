@@ -6,7 +6,6 @@ if __name__=="__main__":
     x = np.linspace(0,500,num=500)
     power = np.zeros(len(x))
 
-
     for i in range(len(power)):
         xHAWT = np.array([0, 500])
         yHAWT = np.array([250, x[i]])
@@ -97,4 +96,4 @@ if __name__=="__main__":
     plt.show()
 
 
-    
+
