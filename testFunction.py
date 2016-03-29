@@ -2,6 +2,10 @@ import numpy as np
 from Main_Obj import *
 
 if __name__=="__main__":
+import numpy as np
+from Main_Obj import *
+
+if __name__=="__main__":
 
     x = np.linspace(0,500,num=500)
     power = np.zeros(len(x))
@@ -94,6 +98,8 @@ if __name__=="__main__":
     plt.scatter(0,250)
     plt.scatter(np.ones(500), x)
     plt.show()
+
+
 
 
 
