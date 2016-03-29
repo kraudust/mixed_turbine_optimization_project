@@ -18,8 +18,8 @@ solidity = (chord*B)/(dia/2.)
 # Enter the positions of the turbine and velocity calculation
 xt = 0. # downstream position of turbine in flow domain (m)
 yt = 0. # later position of turbine in flow domain (m)
-x0 = 5. # downstream distance from turbine for velocity calculation (m)
-y0 = 0. # lateral distance from turbine for velocity calculation (m)
+x0 = 0. # downstream distance from turbine for velocity calculation (m)
+y0 = 1000000. # lateral distance from turbine for velocity calculation (m)
 
 # Choose whether CFD vorticity or velocity data will be used as the basis
 #cfd_data = 'vort'
@@ -49,11 +49,11 @@ print '\nNormalized velocity at (',x0,',',y0,') from the turbine =',vel,'\n' # o
 fs = 18 # font size for plots
 
 # Option to plot velocity profiles
-vel_slice = True
+vel_slice = False
 vel_slice = False # comment this out if desired on
 
 # Option to plot a full velocity domain
-plot_dist = True
+plot_dist = False
 # plot_dist = False # comment this out if desired on
 
 # Plotting velocity profiles

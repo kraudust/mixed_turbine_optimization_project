@@ -27,28 +27,31 @@ def AEP(xin, params):
 	for i in range(numDir):
 		binSizeDir = 2.*pi/numDir
 		direction = i*binSizeDir+binSizeDir/2.
-		#print "Direction: ", i
+		print "Direction: ", i
 		for j in range(numSpeed):
-			#print "Speed: ", j
+			print "Speed: ", j
 			binSizeSpeed = 27./numSpeed
 			speed = 3+j*binSizeSpeed+binSizeSpeed/2.
 			params_2 = tuple([nVAWT, rh, rv, rt, direction, speed])
 			AEP += freqDir[i]*freqSpeed[j]*-1.e6*obj(xin, params_2)*24.*365.
 	constraints = con(xin, params_2)
-	#print func_call
-	print -AEP/1e12
-	return -AEP/1e12, -constraints
+	print func_call, -AEP/1e11
+	return -AEP/1e11, -constraints
 	
 if __name__=="__main__":
 
 	global func_call
 	func_call = 0
-	xHAWT = np.array([400, 400, 500, 600, 600])
-	yHAWT = np.array([400, 600, 500, 400, 600])
+	xHAWT = np.array([580,580,500,500])
+	yHAWT = np.array([500,580,500, 580])
+	xVAWT = np.array([400, 400, 400, 400, 650, 650, 650, 650])
+	yVAWT = np.array([400, 450, 550, 600, 400, 450, 550, 600])
+	#xVAWT = np.array([250, 250, 250])
+	#yVAWT = np.array([50, 500, 1000])
 	#xVAWT = np.array([400, 400])
 	#yVAWT = np.array([400, 500])
-	xVAWT = np.array([])
-	yVAWT = np.array([])
+	#xVAWT = np.array([])
+	#yVAWT = np.array([])
 
 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
 	n = len(xin)
@@ -57,11 +60,11 @@ if __name__=="__main__":
 	rh = 40.
 	rv = 3.
 	rt = 5.
-	numDir = 8
-	numSpeed = 5 #why can I only do 4 or more speeds?
+	numDir = 18
+	numSpeed = 18 #why can I only do 4 or more speeds?
 	params = [nVAWT, rh, rv, rt, numDir, numSpeed]
-	AEP(xin, params)
-	
+	print AEP(xin, params)
+
 	lb = np.zeros(len(xin))
 	ub = np.ones(len(xin))*1000.
 	
@@ -75,9 +78,9 @@ if __name__=="__main__":
 	xopt, fopt, info = optimize(AEP, xin, lb, ub, optimizer, args = [params,])
 	
 	print "Original positions: ", xin
-	print "Original AEP: ", forig*-1e12
+	print "Original AEP: ", forig*-1e11
 	print "Optimal positions: ", xopt
-	print "New AEP: ", fopt*-1e12
+	print "New AEP: ", fopt*-1e11
 	print "Function Calls: ", func_call
 	print info
 	
@@ -87,18 +90,18 @@ if __name__=="__main__":
 	yVAWT_opt = xopt[nVAWT: 2*nVAWT]
 	xHAWT_opt = xopt[2*nVAWT: 2*nVAWT + nHAWT]
 	yHAWT_opt = xopt[2*nVAWT + nHAWT : len(xin)]
-	#plt.scatter(xVAWT, yVAWT, c = 'r', s = 30, label = "VAWT init")
-	#plt.scatter(xVAWT_opt, yVAWT_opt, c = 'r', s = 120, label = "VAWT opt")
+	plt.scatter(xVAWT, yVAWT, c = 'r', s = 30, label = "VAWT init")
+	plt.scatter(xVAWT_opt, yVAWT_opt, c = 'r', s = 120, label = "VAWT opt")
 	plt.scatter(xHAWT, yHAWT, c = 'b', s = 30, label = "HAWT init")
-	plt.scatter(xHAWT_opt, yHAWT_opt, c = 'r', s = 30, label = "HAWT opt")
+	plt.scatter(xHAWT_opt, yHAWT_opt, c = 'b', s = 120, label = "HAWT opt")
 	#plt.legend()
 	plt.xlabel("x dir (m)")
 	plt.ylabel("y dir (m)")
-	plt.title("Built in Particle Swarm")
+	plt.title("Mixed Wind Farm Optimization")
 	#move legend outside plot
 	plt.legend(loc='upper center', bbox_to_anchor = (0.5, -0.05), fancybox = True, shadow=True, ncol = 2)
 	plt.show()
-	
+
 	
 	
 	

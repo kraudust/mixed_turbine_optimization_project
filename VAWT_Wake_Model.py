@@ -366,17 +366,24 @@ def velocity_field(xt,yt,x0,y0,velf,dia,tsr,solidity,cfd_data,param):
         # rat = param[3]
         # tns = param[4]
         
-        # men = np.array( [-0.0007448786610163438, 0.011700465818493566, -0.005332505770684337] )
-        # spr = np.array( [6.462355161093711, 7.079901300173991, 12.102886237210939] )
-        # scl = np.array( [8.509272717226171, 7.023483471068396, 27.707846411384697] )
-        # rat = np.array( [-2.107186196351149, 44.93845180541949] )
-        # tns = np.array( [-1.4660542829002265, 30.936653231840257] )
-        # 
+        #men = np.array( [-0.0007448786610163438, 0.011700465818493566, -0.005332505770684337] )
+        #spr = np.array( [6.462355161093711, 7.079901300173991, 12.102886237210939] )
+        #scl = np.array( [8.509272717226171, 7.023483471068396, 27.707846411384697] )
+        #rat = np.array( [-2.107186196351149, 44.93845180541949] )
+        #tns = np.array( [-1.4660542829002265, 30.936653231840257] )
+         
         men = np.array( [-0.00059737414699399, 0.009890587474506057, -0.0016721254639608882] )
         spr = np.array( [-0.005652314031253564, 0.06923002880544946, 0.526304136118912] )
         scl = np.array( [6.639808894608728, 5.477607580787858, 21.13678312202297] )
         rat = np.array( [-2.0794010451530873, 44.798557035611] )
         tns = np.array( [-1.43164706657537, 30.761785195818447] )
+
+        #men = np.array( [-0.0006344223751663201, 0.01055675755786011, -0.004073212523707764] )
+        #spr = np.array( [-0.005187125854670714, 0.06397918461247416, 0.543874357807372] )
+        #scl = np.array( [6.667328694868336, 5.617498827673229, 21.520026361522778] )
+        #rat = np.array( [-2.129054494312758, 45.17191461412915] )
+        #tns = np.array( [-1.5569348878268718, 31.913143231782648] )
+        #param = np.array([men,spr,scl,rat,tns])
 
         
         men_v = men[0]*x0d**2 + men[1]*x0d + men[2]
@@ -406,4 +413,16 @@ def velocity_field(xt,yt,x0,y0,velf,dia,tsr,solidity,cfd_data,param):
             vel = 1. # Velocity is free stream in front and to the sides of the turbine
     
     return vel
+    
+if __name__ == '__main__':
+	velf = 15.0 # free stream wind speed (m/s)
+	dia = 6.0  # turbine diameter (m)
+	tsr = 4.0  # tip speed ratio
+	B = 3. # number of blades
+	chord = 0.25 # chord lenth (m)
+	solidity = (chord*B)/(dia/2.)
+	cfd_data = 'velo'
+	param = []
+	print 1. - velocity_field(0., 1000000., 0., -1000000., velf, dia, tsr, solidity, cfd_data, param)   
+
 

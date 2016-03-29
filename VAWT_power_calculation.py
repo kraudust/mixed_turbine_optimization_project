@@ -49,10 +49,10 @@ def VAWT_Power(x_v, y_v, x_h, y_h, params):
 			if i == j:
 				ind_loss[j] = 0 #i.e. L11 = L22 = L33 = 0... turbine loss from itself is zero
 			else:
-				ind_loss[j] = 1. - velocity_field(x_v[j], y_v[j], x_v[i], y_v[i], velf, dia, tsr, solidity, cfd_data, param)
+				ind_loss[j] = 1. - velocity_field(x_v[j], y_v[j], x_v[i] - x_v[j], y_v[i] - y_v[j], velf, dia, tsr, solidity, cfd_data, param)
 		loss_VT[i] = np.linalg.norm(ind_loss,2) #calculate the sum of the squares (the 2 norm)
 		ind_loss = np.zeros(n)
-	
+	print loss_VT
 	loss_HT = loss_cylinder(x_h, y_h, x_v, y_v, r_tower, r_VAWT) #loss from HAWT towers
 	for z in range(0, n):
 		tot_loss[z] = (loss_HT[z]**2. + loss_VT[z]**2.)**0.5
@@ -67,14 +67,16 @@ if __name__=="__main__":
 	velf = 15.0 # free stream wind speed (m/s)
 	#x = np.array([0, 0, 0, 10, 10, 10, 20, 20, 20])
 	#y = np.array([0, 10, 20, 0, 10, 20, 0, 10, 20])
-	x_v = np.array([0, 0, 0, 50, 50, 50, 100, 100, 100])
-	y_v = np.array([0, 50, 100, 0, 50, 100, 0, 50, 100])
-	x_h = np.array([7, 30])
-	y_h = np.array([7, 30])
+	#x_v = np.array([0, 0, 0, 50, 50, 50, 100, 100, 100])
+	#y_v = np.array([0, 50, 100, 0, 50, 100, 0, 50, 100])
+	x_v = np.array([0, 0])
+	y_v = np.array([1000000, 0])
+	x_h = np.array([])
+	y_h = np.array([])
 	#x = np.array([0., 50.])
 	#y = np.array([0.,0.])
 	r_tower = 5.
-	r_VAWT = 6.
+	r_VAWT = 3.
 	params = [velf, r_tower, r_VAWT]
 	power = VAWT_Power(x_v, y_v, x_h, y_h, params)
 	print power
