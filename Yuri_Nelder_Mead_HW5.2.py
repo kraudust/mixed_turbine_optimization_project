@@ -119,8 +119,8 @@ def simplex(f, x):
 if __name__ == '__main__':
     global func_calls
     func_calls = 0
-    n = 8
-    x = -1.*np.ones(n)
+    n = 32
+    x = -1.5*np.ones(n)
 
     #print vertices(x)
     xb = simplex(rosenbrock,x)
