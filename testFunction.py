@@ -2,10 +2,6 @@ import numpy as np
 from Main_Obj import *
 
 if __name__=="__main__":
-import numpy as np
-from Main_Obj import *
-
-if __name__=="__main__":
 
     x = np.linspace(0,500,num=500)
     power = np.zeros(len(x))
@@ -81,7 +77,7 @@ if __name__=="__main__":
         rh = 40.
         rv = 3.
         rt = 5.
-        direction = -158.
+        direction = -90.
         dir_rad = (direction+90) * np.pi / 180.
         U_vel = 8.
 

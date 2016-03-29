@@ -52,7 +52,6 @@ def VAWT_Power(x_v, y_v, x_h, y_h, params):
 				ind_loss[j] = 1. - velocity_field(x_v[j], y_v[j], x_v[i] - x_v[j], y_v[i] - y_v[j], velf, dia, tsr, solidity, cfd_data, param)
 		loss_VT[i] = np.linalg.norm(ind_loss,2) #calculate the sum of the squares (the 2 norm)
 		ind_loss = np.zeros(n)
-	print loss_VT
 	loss_HT = loss_cylinder(x_h, y_h, x_v, y_v, r_tower, r_VAWT) #loss from HAWT towers
 	for z in range(0, n):
 		tot_loss[z] = (loss_HT[z]**2. + loss_VT[z]**2.)**0.5
