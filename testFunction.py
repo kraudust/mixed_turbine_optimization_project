@@ -7,30 +7,30 @@ if __name__=="__main__":
 	power = np.zeros(len(x))
 	
 	
-	# for i in range(len(power)):
-	# 	xHAWT = np.array([0, 500])
-	# 	yHAWT = np.array([250, x[i]])
-	# 	xVAWT = np.array([])
-	# 	yVAWT = np.array([])
-    #
-	# 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
-	# 	nVAWT = len(xVAWT)
-	# 	xupper = 1000
-	# 	yupper = 1000
-	# 	rh = 40.
-	# 	rv = 3.
-	# 	rt = 5.
-	# 	direction = -90.
-	# 	dir_rad = (direction+90) * np.pi / 180.
-	# 	U_vel = 8.
-    #
-	# 	params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
-	# 	power[i] = -1.*obj(xin,params)
-    #
-	# plt.figure(1)
-	# plt.plot(power,x)
-	# plt.title('HAWT Model Validation')
-	# plt.show()
+	for i in range(len(power)):
+		xHAWT = np.array([0, 500])
+		yHAWT = np.array([250, x[i]])
+		xVAWT = np.array([])
+		yVAWT = np.array([])
+
+		xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
+		nVAWT = len(xVAWT)
+		xupper = 1000
+		yupper = 1000
+		rh = 40.
+		rv = 3.
+		rt = 5.
+		direction = -90.
+		dir_rad = (direction+90) * np.pi / 180.
+		U_vel = 8.
+
+		params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
+		power[i] = -1.*obj(xin,params)
+
+	plt.figure(1)
+	plt.plot(power,x)
+	plt.title('HAWT Model Validation')
+	plt.show()
 
 	for i in range(len(power)):
 		xHAWT = np.array([0])
@@ -57,30 +57,30 @@ if __name__=="__main__":
 	plt.title('Tower Model Validation')
 	plt.show()
 	
-    #
-	# for i in range(len(power)):
-	# 	xVAWT = np.array([0, 500])
-	# 	yVAWT = np.array([250, x[i]])
-	# 	xHAWT = np.array([])
-	# 	yHAWT = np.array([])
-    #
-	# 	xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
-	# 	nVAWT = len(xVAWT)
-	# 	xupper = 1000
-	# 	yupper = 1000
-	# 	rh = 40.
-	# 	rv = 3.
-	# 	rt = 5.
-	# 	direction = -90.
-	# 	dir_rad = (direction+90) * np.pi / 180.
-	# 	U_vel = 8.
-    #
-	# 	params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
-	# 	power[i] = -1.*obj(xin,params)
-    #
-	# plt.figure(3)
-	# plt.plot(power,x)
-	# plt.title('VAWT Model Validation')
-	# plt.show()
-    #
+
+	for i in range(len(power)):
+		xVAWT = np.array([0, 500])
+		yVAWT = np.array([250, x[i]])
+		xHAWT = np.array([])
+		yHAWT = np.array([])
+
+		xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
+		nVAWT = len(xVAWT)
+		xupper = 1000
+		yupper = 1000
+		rh = 40.
+		rv = 3.
+		rt = 5.
+		direction = -90.
+		dir_rad = (direction+90) * np.pi / 180.
+		U_vel = 8.
+
+		params = tuple([nVAWT, rh, rv, rt, dir_rad, U_vel])
+		power[i] = -1.*obj(xin,params)
+
+	plt.figure(3)
+	plt.plot(power,x)
+	plt.title('VAWT Model Validation')
+	plt.show()
+
 
