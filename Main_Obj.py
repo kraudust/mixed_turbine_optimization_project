@@ -73,7 +73,7 @@ def con(xin, params):
 			else:
 				dx = xHAWT[i]-xHAWT[j]
 				dy = yHAWT[i]-yHAWT[j]
-				constraints = np.append(constraints, dx**2+dy**2-64*rh**2)
+				constraints = np.append(constraints, dx**2+dy**2-9*rh**2)
 
 	for i in range(len(xVAWT)):
 		for j in range(len(xVAWT)):
@@ -82,13 +82,13 @@ def con(xin, params):
 			else:
 				dx = xVAWT[i]-xVAWT[j]
 				dy = yVAWT[i]-yVAWT[j]
-				constraints = np.append(constraints, dx**2+dy**2-64*rv**2)
+				constraints = np.append(constraints, dx**2+dy**2-9*rv**2)
 
 	for i in range(len(xVAWT)):
 		for j in range(len(xHAWT)):
 			dx = xVAWT[i]-xHAWT[j]
 			dy = yVAWT[i]-yHAWT[j]
-			constraints = np.append(constraints, dx**2+dy**2-16*rh**2)
+			constraints = np.append(constraints, dx**2+dy**2-4*rv**2)
 
 	return constraints/100000
 

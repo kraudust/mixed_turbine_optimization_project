@@ -27,9 +27,7 @@ def AEP(xin, params):
     for i in range(numDir):
         binSizeDir = 2.*pi/numDir
         direction = i*binSizeDir+binSizeDir/2.
-        print "Direction: ", i
         for j in range(numSpeed):
-            print "Speed: ", j
             binSizeSpeed = 27./numSpeed
             speed = 3+j*binSizeSpeed+binSizeSpeed/2.
             params_2 = tuple([nVAWT, rh, rv, rt, direction, speed])
@@ -41,10 +39,10 @@ def AEP(xin, params):
 if __name__=="__main__":
     global func_call
     func_call = 0
-    xHAWT = np.array([580,580])
-    yHAWT = np.array([500,580])
+    xHAWT = np.array([])
+    yHAWT = np.array([])
     xVAWT = np.array([400, 400])
-    yVAWT = np.array([400, 450])
+    yVAWT = np.array([400, 410])
 
     xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
     n = len(xin)
@@ -64,7 +62,7 @@ if __name__=="__main__":
     forig, cons = AEP(xin, params)
 
     #optimizer = NSGA2()
-    optimizer = SNOPT()'''
+    optimizer = SNOPT()
     #optimizer.setOption('SwarmSize', 20)
     #optimizer.setOption('maxGen', 1)
     #optimizer.setOption('PopSize', n*10)	
@@ -93,7 +91,7 @@ if __name__=="__main__":
     plt.title("Mixed Wind Farm Optimization")
     #move legend outside plot
     plt.legend(loc='upper center', bbox_to_anchor = (0.5, -0.05), fancybox = True, shadow=True, ncol = 2)
-    plt.show()
+    plt.show()'''
 
 	
 	
