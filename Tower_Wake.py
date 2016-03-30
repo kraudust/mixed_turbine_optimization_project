@@ -20,7 +20,7 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
             R_wake = tan(theta) * dx + r_tower
             dy = abs(y_v[i] - y_h[j])
             if dx > 0:
-            ######## This model does not work for 14 numDir and 50 numDir but has nicer plot
+                """# This model does not work for 14 numDir and 50 numDir but has nicer plot
                 if abs(dy) >= R_wake + r_tower:   #Rwake +rtower is equal to total Rwake
                     overlap_cyl[i][j] = 0
                 elif abs(dy) <= R_wake - r_tower:
@@ -35,13 +35,13 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
                     else:
                         d = beta * cos(theta)
                         phi = 2. * acos(d/r_vawt)
-                        area_overlap = area_vawt - (r_vawt**2./2.) * (phi - sin(phi))
-                        overlap_cyl[i][j] = area_overlap/area_vawt
-                '''     ######## This model works for every direction but has a weird bump in the plot
+                        area_overlap = area_vawt - (r_vawt**2./2.) * (phi - sin(phi))"""
+                        #overlap_cyl[i][j] = area_overlap/area_vawt
+                    # This model works for every direction but has a weird bump in the plot
                 if abs(dy) >= R_wake + r_vawt:
                     overlap_cyl[i][j] = 0
                 elif abs(dy) <= R_wake - r_vawt:
-                	overlap_cyl[i][j] = 1.0
+                    overlap_cyl[i][j] = 1.0
                 elif abs(dy) == R_wake:
                     overlap_cyl[i][j] = 0.5
                 else:
@@ -51,7 +51,7 @@ def overlap_cylinder(x_h,y_h,x_v,y_v,r_tower,r_vawt):
                     else:
                         d = -beta*cos(theta)
                     area_overlap = r_vawt**2*acos(d/r_vawt) - d*sqrt(r_vawt**2 - d**2)
-                    overlap_cyl[i][j] = area_overlap/area_vawt'''
+                    overlap_cyl[i][j] = area_overlap/area_vawt
             else:
                 overlap_cyl[i][j] = 0
 
