@@ -11,9 +11,11 @@ from pyoptwrapper import optimize
 from pyoptsparse import NSGA2, SNOPT, ALPSO
 
 global func_call
+global filename
 
 def AEP(xin, params):
     global func_call
+    global filename
     func_call += 1
     nVAWT = params[0]
     rh = params[1]
@@ -34,9 +36,12 @@ def AEP(xin, params):
             AEP += freqDir[i]*freqSpeed[j]*-1.e6*obj(xin, params_2)*24.*365.
     constraints = con(xin, params_2)
     print func_call, -AEP/1e11
+    np.savetxt(filename + ".txt", np.c_[xin])
     return -AEP/1e11, -constraints
 	
 if __name__=="__main__":
+    global filename
+    filename = raw_input("Enter a filename: ")
     global func_call
     func_call = 0
     xHAWT = np.array([])
@@ -51,27 +56,23 @@ if __name__=="__main__":
     rh = 40.
     rv = 3.
     rt = 5.
-    numDir = 18
-    numSpeed = 18 #why can I only do 4 or more speeds?
+    numDir = 40
+    numSpeed = 40
     params = [nVAWT, rh, rv, rt, numDir, numSpeed]
     print AEP(xin, params)
-    '''
-    lb = np.zeros(len(xin))
-    ub = np.ones(len(xin))*1000.
+    
+    lb = np.ones(len(xin))*np.min(xin)
+    ub = np.ones(len(xin))*np.max(xin)
 
     forig, cons = AEP(xin, params)
 
-    #optimizer = NSGA2()
     optimizer = SNOPT()
-    #optimizer.setOption('SwarmSize', 20)
-    #optimizer.setOption('maxGen', 1)
-    #optimizer.setOption('PopSize', n*10)	
     xopt, fopt, info = optimize(AEP, xin, lb, ub, optimizer, args = [params,])
 
     print "Original positions: ", xin
-    print "Original AEP: ", forig*-1e11
+    print "Original AEP: ", forig*-1e2, "GWhrs"
     print "Optimal positions: ", xopt
-    print "New AEP: ", fopt*-1e11
+    print "New AEP: ", fopt*-1e2, "GWhrs"
     print "Function Calls: ", func_call
     print info
 
@@ -91,7 +92,7 @@ if __name__=="__main__":
     plt.title("Mixed Wind Farm Optimization")
     #move legend outside plot
     plt.legend(loc='upper center', bbox_to_anchor = (0.5, -0.05), fancybox = True, shadow=True, ncol = 2)
-    plt.show()'''
+    plt.show()
 
 	
 	
