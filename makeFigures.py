@@ -40,15 +40,20 @@ if __name__=="__main__":
     xVAWT_opt, yVAWT_opt, xHAWT_opt, yHAWT_opt = turbines(xin, nVAWT)
 
     plt.figure(1)
-    plt.scatter(xHAWT, yHAWT, c='r', s=50)
-    plt.scatter(xVAWT, yVAWT, c='b', s=30)
+    plt.scatter(xHAWT, yHAWT, c='r', s=50, label = "HAWT")
+    plt.scatter(xVAWT, yVAWT, c='b', s=30, label = "VAWT")
     plt.title('Starting Locations')
+    plt.ylabel('Y (m)')
+    plt.xlabel('X (m)')
+    #plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=9, ncol=2, borderaxespad=0.)
 
     plt.figure(2)
-    plt.scatter(xHAWT_opt, yHAWT_opt, c='r', s=50)
-    plt.scatter(xVAWT_opt, yVAWT_opt, c='b', s=30)
+    plt.scatter(xHAWT_opt, yHAWT_opt, c='r', s=50, label = "HAWT")
+    plt.scatter(xVAWT_opt, yVAWT_opt, c='b', s=30, label = "VAWT")
     plt.title('Optimized Locations')
-
+    plt.ylabel('Y (m)')
+    plt.xlabel('X (m)')
+    #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
 
     font = {'family' : 'sans',
         'weight' : 'bold',
@@ -56,3 +61,4 @@ if __name__=="__main__":
     matplotlib.rc('font', **font)
 
     plt.show()
+    
