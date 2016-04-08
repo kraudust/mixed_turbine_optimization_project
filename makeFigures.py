@@ -52,13 +52,16 @@ if __name__=="__main__":
     plt.scatter(xVAWT, yVAWT, c='b', s=30, label='VAWT')
     plt.title('Starting Locations')
     plt.legend(bbox_to_anchor=(1.1, 1.1))
+    plt.xlabel('X (m)')
+    plt.ylabel('Y (m)')
 
     plt.figure(2)
     plt.scatter(xHAWT_opt, yHAWT_opt, c='r', s=50, label='HAWT')
     plt.scatter(xVAWT_opt, yVAWT_opt, c='b', s=30, label='VAWT')
     plt.title('Optimized Locations')
     plt.legend(bbox_to_anchor=(1.1, 1.1))
-
+    plt.xlabel('X (m)')
+    plt.ylabel('Y (m)')
 
     font = {'family' : 'sans',
         'weight' : 'bold',
