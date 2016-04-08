@@ -18,16 +18,21 @@ if __name__=="__main__":
     xVAWT = np.array([62.5,62.5,62.5,62.5,62.5,62.5,125,125,125,125,125,125,187.5,187.5,187.5,187.,187.5,187.5,312.5,312.5,312.5,312.5,312.5,312.5,375,375,375,375,375,375,437.5,437.5,437.5,437.5,437.5,437.5])
     yVAWT = np.array([62.5,125,187.5,312.5,375,437.5,62.5,125,187.5,312.5,375,437.5,62.5,125,187.5,312.5,375,437.5,62.5,125,187.5,312.5,375,437.5,62.5,125,187.5,312.5,375,437.5,62.5,125,187.5,312.5,375,437.5])
     """
-
+    
     #Starting Points 4
     xHAWT = np.array([0,0,0,250,250,250,500,500,500])
     yHAWT = np.array([0,250,500,0,250,500,0,250,500])
     xVAWT = np.array([0,0,0,0,83.33,83.33,83.33,83.33,83.33,83.33,83.33,166.66,166.66,166.66,166.66,166.66,166.66,166.66,250,250,250,250,333.33,333.33,333.33,333.33,333.33,333.33,333.33,416.66,416.66,416.66,416.66,416.66,416.66,416.66,500,500,500,500])
     yVAWT = np.array([83.33,166.66,333.33,416.66,0,83.33,166.66,250,333.33,416.66,500,0,83.33,166.66,250,333.33,416.66,500,83.33,166.66,333.33,416.66,0,83.33,166.66,250,333.33,416.66,500,0,83.33,166.66,250,333.33,416.66,500,83.33,166.66,333.33,416.66])
-
-
+    """
+    #Starting Points 5
+    xHAWT = np.array([])
+    yHAWT = np.array([])
+    xVAWT = np.array([0,0,11,20,20,30])
+    yVAWT = np.array([0,20,10,0,20,40])
+    """
     #Optimal Points
-    filename = "Optimzation_4.txt"
+    filename = "Optimization_4.txt"
     file = open(filename)
     xin = np.loadtxt(file)
     nVAWT = len(xVAWT)
@@ -35,14 +40,16 @@ if __name__=="__main__":
     xVAWT_opt, yVAWT_opt, xHAWT_opt, yHAWT_opt = turbines(xin, nVAWT)
 
     plt.figure(1)
-    plt.scatter(xHAWT, yHAWT, c='r', s=50)
-    plt.scatter(xVAWT, yVAWT, c='b', s=30)
+    plt.scatter(xHAWT, yHAWT, c='r', s=50, label='HAWT')
+    plt.scatter(xVAWT, yVAWT, c='b', s=30, label='VAWT')
     plt.title('Starting Locations')
+    plt.legend(bbox_to_anchor=(1.1, 1.1))
 
     plt.figure(2)
-    plt.scatter(xHAWT_opt, yHAWT_opt, c='r', s=50)
-    plt.scatter(xVAWT_opt, yVAWT_opt, c='b', s=30)
+    plt.scatter(xHAWT_opt, yHAWT_opt, c='r', s=50, label='HAWT')
+    plt.scatter(xVAWT_opt, yVAWT_opt, c='b', s=30, label='VAWT')
     plt.title('Optimized Locations')
+    plt.legend(bbox_to_anchor=(1.1, 1.1))
 
 
     font = {'family' : 'sans',
