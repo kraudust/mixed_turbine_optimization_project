@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from Main_Obj import *
 from datetime import datetime
 from scipy.interpolate import interp1d
+from turbines import turbines
 
 
 def weibull_prob(x):
@@ -87,8 +88,17 @@ def calc_AEP(xin, params, numDir, numSpeed):
 
 if __name__=="__main__":
 
-    xHAWT = np.array([0,0,0,500,500,500,1000,1000,1000])
-    yHAWT = np.array([0,500,1000,0,500,1000,0,500,1000])
+    xHAWT = np.array([0,0,0,250,250,250,500,500,500])
+    yHAWT = np.array([0,250,500,0,250,500,0,250,500])
+    xVAWT = np.array([0,0,0,0,83.33,83.33,83.33,83.33,83.33,83.33,83.33,166.66,166.66,166.66,166.66,166.66,166.66,166.66,250,250,250,250,333.33,333.33,333.33,333.33,333.33,333.33,333.33,416.66,416.66,416.66,416.66,416.66,416.66,416.66,500,500,500,500])
+    yVAWT = np.array([83.33,166.66,333.33,416.66,0,83.33,166.66,250,333.33,416.66,500,0,83.33,166.66,250,333.33,416.66,500,83.33,166.66,333.33,416.66,0,83.33,166.66,250,333.33,416.66,500,0,83.33,166.66,250,333.33,416.66,500,83.33,166.66,333.33,416.66])
+
+    starting = "Optimzation_4.txt"
+    file = open(starting)
+    xload = np.loadtxt(file)
+    nVAWT = 40
+    xVAWT, yVAWT, xHAWT, yHAWT = turbines(xload, nVAWT)
+
     rh = 40.
     nRows = 10   # number of rows and columns in grid
     spacing = 5     # turbine grid spacing in diameters
@@ -97,10 +107,6 @@ if __name__=="__main__":
     xpoints, ypoints = np.meshgrid(points, points)
     xHAWT = np.ndarray.flatten(xpoints)
     yHAWT = np.ndarray.flatten(ypoints)"""
-
-    xVAWT = np.array([250,160])
-    yVAWT = np.array([250,100])
-
 
     xin = np.hstack([xVAWT, yVAWT, xHAWT, yHAWT])
     nVAWT = len(xVAWT)
@@ -115,7 +121,7 @@ if __name__=="__main__":
     print "Running..."
 
 
-    print calc_AEP(xin, params, 40,40)
+    print calc_AEP(xin, params, 18,18)
     """for i in range(1,100):
         print i
         print calc_AEP(xin, params, i,10), "MWhrs"""
