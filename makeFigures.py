@@ -31,16 +31,25 @@ if __name__=="__main__":
     xVAWT = np.array([0,0,11,20,20,30])
     yVAWT = np.array([0,20,10,0,20,40])
     """
+    """
     #Optimal Points
     filename = "Optimization_4.txt"
+    """
+    """
     #Dustan's starting point for 25 turbines
     xHAWT = np.array([0,0,250,500,500])
     yHAWT = np.array([0,500,250,0,500])
     xVAWT = np.array([0, 0, 0, 125, 125, 125, 125, 125, 250, 250, 250, 250, 375, 375, 375, 375, 375, 500, 500, 500])
     yVAWT = np.array([125, 250, 375, 0, 125, 250, 375, 500, 0, 125, 375, 500, 0, 125, 250, 375, 500, 125, 250, 375])
-
+    """
+    #Dustan 16 Turbines
+    xHAWT = np.array([0,0, 300,300])
+    yHAWT = np.array([0,300,0,300])
+    xVAWT = np.array([0, 0, 100, 100, 100, 100, 200, 200, 200, 200, 300, 300])
+    yVAWT = np.array([100, 200, 0, 100, 200, 300, 0, 100, 200, 300, 100, 200])
+    
     #Optimal Points
-    filename = "dk_25_turbine_optimization.txt"
+    filename = "dustan_16_turbines.txt"
     file = open(filename)
     xin = np.loadtxt(file)
     nVAWT = len(xVAWT)
