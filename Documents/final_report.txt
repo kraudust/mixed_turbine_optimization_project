@@ -1,0 +1,223 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{geometry}
+\geometry{legalpaper, margin=1in}
+\usepackage{subcaption}
+
+\title{Mixed Wind Farm Optimization}
+ \author{
+  Dustan P. Kraus,
+  \ Yuri S. C. L. Neves,
+  \ and
+  \ Andrew P. J. Stanley\\
+                         {\normalsize\itshape
+   Brigham Young University, Provo, Utah, 84602, United States of America}\\
+ }
+
+\begin{document}
+\maketitle{}
+
+\begin{abstract*}
+Many people have optimized the turbine layout of wind farms to maximize the energy produced. This research focuses on a mixed turbine type wind farm optimization, including both horizontal axis wind turbines (HAWTs) and vertical axis wind turbines (VAWTs). Current wind farms typically use one type of turbine throughout the entire farm, when there can be many benefits of using mixed turbine types. Wake models for turbine interactions were included in a wind farm layout simulation, to predict the annual energy production of a wind farm. This AEP was then maximized by adjusting the locations of the wind turbines. 
+\end{abstract}
+
+\section{Final Report}
+Your report must be in PDF format, be no more than 10 pages (not including references), and contain the typical elements of a journal paper including an abstract, introduction (including a discussion of prior work), methodology (in sufficient detail that a practitioner could reproduce your results), results (including a detailed discussion on their meaning and relevance), conclusion, and references. If you have lots of symbols you might consider providing a nomenclature section. Format your paper in the journal style of your field. If you don't have a particular field, you can use the AIAA style. Most journals (including AIAA) provide LaTeX style files and/or MS Word templates.
+
+The quality and clarity of your writing is important. Your career will likely involve lots of writing. I encourage you to solicit feedback early and often. The BYU Writing Center is one excellent resource available to you.
+
+When complete, submit your report to a public archive. Some good options include figshare and zenodo. If you want to set an embargo then use figshare. You will only be required to post the final paper, but where possible I encourage you to also post code/data for a more significant impact (this is purely for public good, I won't grade you on whether or not you elect to do so).
+
+Submit the following via Learning Suite:
+
+    A link to your archived report in the following format (please follow exactly, look at website for examples):
+    - [Title of Article in Title Case](url to public posting, preferably a doi) by Author One, Author Two, and Author Three.
+    The PDF (only if you used an embargo or received approval for private submission).
+    An approximate percentage breakdown in effort for yourself and the rest of your team members (total must add up to 100%).
+    A description of any work included in your report that was done previous to this semester, or that contains contributions from people outside your project team.
+
+Some of you will have final reports that will be nearly publication ready. If appropriate, I encourage you to consider spending the effort after the class is over to prepare your work for submission to a conference or journal.
+
+\section{Grading}
+
+The final report will be graded using the same criteria that I would use in evaluating a prospective journal article.
+
+    Relevance: Is this a relevant problem of importance in your field of interest?
+    Impact: Is the work novel and a potentially useful contribution to the field? Is the work reproducible?
+    Quality: Is the work of good quality and technically accurate? Is the problem well-scoped?
+    Organization: Is the writing clear and logical? Are figures and tables well-presented?
+
+You will be asked to rate your contribution and that of your peers (as a percentage). You will be penalized if you contribute significantly less than expected. I do not expect a perfect balance, but do expect a balance within +/-5\% (e.g., 45/55 for a 2-person team would be considered balanced). For the vast majority of past teams this is not an issue. To compute your project score I will first compute a separate team score. Then I will average the contribution estimates from all team members and then give you the benefit of the doubt with an added 5\% uncertainty margin. Your score will be computed using this formula: score
+
+For example, suppose you were on a 3-person team and your team score was 98\%. If you contributed at least 28.3\% or greater than your individual score would also be 98\%. But if you contributed less (e.g., say 25\%) then your score would be 98\% (25+5)/(33.3) = 88\%
+
+\section{Introduction}
+ \begin{figure}[H]
+\centering
+	\centering
+    \includegraphics[width=.8\linewidth]{end.pdf}
+    \caption{Locations optimized for maximum annual energy production}
+    \label{figure:3}
+ \end{figure}
+
+\begin{equation}
+\begin{aligned}
+& \underset{}{\text{minimize}}
+& & f = x_1^2+2x_2^2+3x_3^2 \\
+& \text{subject to}
+& & c_1 = 2x_1+x_2+2x_3 \geq 6\\
+&&& c_2 = -5x_1+x_2+3x_3 \leq -10\\
+\end{aligned}
+\end{equation}
+
+ \begin{table}[H]
+\centering
+\begin{tabular}{||c c c c c c||} 
+ \hline
+& $x_1$ & $x_2$ & $x_3$ & f & Monte Carlo Reliability \\[0.5ex]  
+ \hline
+ Deterministic Optimum & 2.3515 & 0.3758 & 0.4606 & 6.4485 & 34.6146\%\\
+ \hline
+ Worst-case, Reliable Optimum & 2.5190 & 0.3958 & 0.4831 & 7.3589 & 99.9986\%\\
+ \hline
+ Within 3 Standard Deviations Optimum & 2.4624 & 0.3836 & 0.4673 & 7.0129 & 99.7496\% \\
+ \hline
+\end{tabular}
+\caption{Results from comparing the reliability and function value of different optimizations of the same function}
+\label{table:1}
+\end{table}
+
+\section{Methodology}
+\subsection{Model Description}
+The wind passing turbines is slowed as some of its kinetic energy is taken by the turbine blade. This slowed portion is called a wake, and is created downwind of all turbines. When designing a wind farm, it is desirable to have turbines experiencing the highest wind speed possible to generate the most energy. For this reason, farms are designed such that losses from wakes are minimized. To design a wind farm with this in mind, it is necessary to simplify and model wake behavior behind wind turbines.
+
+\subsubsection{Jensen Wake Model}
+We used the Jensen wake model simulate the wake behind the HAWTs. This model uses conservation of mass and momentum in its derivation, and assumes a constant spread angle of 10 degrees. We added a cosine curve to the wake model such that the wind speed near the center of the wake is slower than near the edge of the wake. This is so that there is a gradient and turbines in the center of the wake will be pushed out during the optimization. 
+
+\subsubsection{VAWT Wake Model}
+Eric Tingey, a graduate student at Brigham Young University (BYU), has developed a parameterized VAWT wake model using CFD vorticity data \cite{Tingey2016-Parameterized-Vertical-Axis}. The model he developed is valid for tip-speed ratios betwen 1.5 and 7.0, solidities between 0.15 and 1.0, and Reynolds numbers between 200,000 and 6,000,000. Using this model, he developed a simplified wake model with a best fit curve. We ultimately ended up using this simplified wake model in our optimization as it reduced the computational expense significantly.
+
+We also assumed that the wind velocity at VAWTS (and therefore the VAWT power output) is only affected by HAWT towers (as discussed further in section~\ref{ssec:tow_wake_model}) and other VAWTS. They are not affected by the HAWT wakes.
+
+\subsubsection{HAWT Tower Wake Model}
+\label{ssec:tow_wake_model}
+As mentioned in the previous section, since the HAWT tower will have a significant affect on the VAWTs energy performance, we created a wake model of the HAWT towers that will overlap with the vertical turbines.
+
+For the tower wake model, we assumed the base of the horizontal turbines to be a perfect circular cylinder. Because there is no formal wake model for a cylinder in free flow, we derived a simplified model using the conservation of mass and momentum. For a full derivation, see Appendix A. 
+
+We made several important assumptions that affect the accuracy of this model, some of which were simplifications of empirical data. For the actual wake, we assumed a spread angle of 10 degrees, as was assumed in the Jensen model. We also assumed a constant drag coefficient of 0.3 \cite{drag}. Drag coefficient is really a function of the Reynolds number, so it will change with changes in wind speed and tower diameter. However, because the Reynolds number remains in the same order of magnitude, a constant $C_D$ is realistic. 
+
+\subsubsection{Wind Direction and Speed Frequencies}
+To calculate AEP, the frequency of wind from different directions is taken from empirical data of the Princess Amalia Wind Farm. This data is taken at discrete points in 5 degree intervals. To make this a continuous function, we linearly interpolated it.
+
+The probability distribution of the wind speeds is approximated with a Weibull function, with a max wind speed of 30 m/s and a lower range of 2 m/s (any lower speeds did not satisfy the assumptions of the simplified VAWT model used).
+
+\subsection{Optimization}
+The optimization is defined by:
+
+\begin{equation}
+\begin{aligned}
+& \underset{x}{\text{maximize}}
+& & AEP(x, y) \\
+& \text{subject to}
+& & d_{HAWT-HAWT}\geq 8*r_{HAWT}\\
+&&& d_{HAWT-VAWT}\geq 4*r_{HAWT}\\
+&&& d_{VAWT-VAWT}\geq 8*r_{VAWT}
+\end{aligned}
+\end{equation}
+
+Where \textit{AEP} is the annual energy production of the wind farm, \textit{x} and \textit{y} are the x and y coordinates of each wind turbine. $d_{HAWT-HAWT}$, $d_{HAWT-VAWT}$, and $d_{VAWT-VAWT}$ are the distances between each HAWT and all other HAWTs, each HAWT and all other VAWTs, and each VAWT and all other VAWTs, respectively. $r_{HAWT}$ and $r_{VAWT}$ are the radii of the HAWTs and VAWTs.
+
+We used three classes of constraints to constraint our problem. The first constrain, is that the position of the vertical turbines cannot be closer than eight radii apart. The second is that the horizontal turbines cannot, also, be closer than eight radii apart. The last class of constraint, is that each vertical turbine cannot be closer than four radii apart from another horizontal turbine. In all, each turbine has several specific constraints. We also included a simple bound constraint so that the turbines remain within a specific farm footprint.
+
+We used six parameters to run our optimization: the number of vertical turbines (from this, the number of horizontal can also be determined), the radius of the horizontal turbine’s blades, the radius of the vertical turbine, the radius of the horizontal turbine’s tower, the direction of the wind, and the initial velocity of the wind. Each of these parameters can easily be changed to test different scenarios, since they are all passed collectively into the optimizer.
+
+We used the commercial optimizer SNOPT  \cite{pyopt-paper}.
+
+
+
+\section{Optimization Results}
+
+\subsection{16 Turbines (4 HAWTS, 12 VAWTS)}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{Figures/original_16_turb.pdf}
+\caption{\label{fig:tubs}This plot shows the initial turbine locations for a mixed wind farm.}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{Figures/optimized_16_turb.pdf}
+\caption{\label{fig:tubs}This plot shows the optimal turbine locations for a mixed wind farm using SNOPT.}
+\end{figure}
+
+
+\subsection{25 Turbines (5 HAWTS, 20 VAWTS)}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{Figures/25turbinestart.JPG}
+\caption{\label{fig:tubs}This plot shows the initial turbine locations for a mixed wind farm.}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{Figures/25turbineend.JPG}
+\caption{\label{fig:tubs}This plot shows the optimal turbine locations for a mixed wind farm using SNOPT.}
+\end{figure}
+
+
+\subsection{49 Turbines (9 HAWTS, 40 VAWTS)}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{Figures/49turbinestart.JPG}
+\caption{\label{fig:tubs}This plot shows the initial turbine locations for a mixed wind farm.}
+\end{figure}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1.0\textwidth]{Figures/49turbineend.JPG}
+\caption{\label{fig:tubs}This plot shows the optimal turbine locations for a mixed wind farm using SNOPT.}
+\end{figure}
+
+
+\subsection{Tabulated Results}
+
+ \begin{table}[H]
+\centering
+\begin{tabular}{||c c c c||} 
+ \hline
+Farm Layout & Original AEP (GW-Hrs) & Optimized AEP (GW-Hrs) & Optimization Time (Hrs) & \\  
+ \hline
+ 4x4 Grid & ? & ? & ?\\
+ \hline
+ 5x5 Grid & 452.4 & 453.5 & 6.8\\
+ \hline
+ 7x7 Grid & 761.5 & 767.3 & 22.6\\
+ \hline
+\end{tabular}
+\caption{.}
+\label{table:1}
+\end{table}
+
+\bibliographystyle{aiaa}
+\bibliography{mixed_turb_ref}
+\end{document}
+
+
+
+
